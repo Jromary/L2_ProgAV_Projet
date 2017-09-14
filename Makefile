@@ -1,9 +1,8 @@
 #INPUT/OUTPUT
-game: main.c #ICI, nom des des fichiers du projets
+game: main.c carre.c grille.c grille.h carre.h
 
 # Commande de compilation
-gcc -Wall -g -std=c99 main.c #ICI, nom des fichiers également
- `sdl-config --cflags --libs` -lm  -o game
+	gcc -Wall -g -std=c99 main.c carre.c grille.c carre.h grille.h `sdl-config --cflags --libs` -lm -o game
 
 
 # -lm => Bibliotheque math.h

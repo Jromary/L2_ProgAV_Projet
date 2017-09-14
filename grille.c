@@ -2,10 +2,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "carre.h"
 
-void Grille(Carre **a, int taille) {
-    **a = (Carre **)malloc(sizeof(Carre*) * taille);
-    for (int i = 0; i < taille; i++){
-        a[i] = (Carre*)malloc(sizeof(Carre*) * taille);
-    }
+Carre** aloc_one(int taille){
+    return (Carre **)malloc(taille * sizeof(Carre*));
 }
+Carre* aloc_two(int taille){
+    return (Carre *)malloc(taille * sizeof(Carre));
+}
+
