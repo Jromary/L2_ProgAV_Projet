@@ -50,7 +50,7 @@ void update_events(char *keys)
 }
 
 int main(int argc, char *argv[]){
-    int i, j;
+    /* Initialisation de SDL */
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption("PentoTrice", "PentoTrice");
     SDL_EnableKeyRepeat(10, 100);
@@ -65,12 +65,13 @@ int main(int argc, char *argv[]){
 
     char key[SDLK_LAST] = {0};
     int x, y;
+    int i, j;
+
+    // Creation de la fenetre / grille de jeu
     Carre** fenetre = aloc_one(10);
     for (i = 0; i < 10; i++){
         fenetre[i] = aloc_two(10);
     }
-
-
 
     for (i = 0; i < 10; i++){
         for (j = 0; j < 10; j++){
@@ -78,16 +79,23 @@ int main(int argc, char *argv[]){
         }
     }
 
+    // test piece
     Piece p;
     const_Piece(&p, 5, 480, 200);
 
-
+    /******* Boucle de jeu ******/
     while (!gameover){
         SDL_GetMouseState(&x, &y);
         printf("%d | %d | %d \n", x, y, pick);
         update_events(key);
+
+
+        /****** Blit des surfaces ******/
+
+        // Background
         SDL_BlitSurface(background, NULL, screen, NULL);
 
+       // Grille de jeu
        for (i = 0; i < 10; i++){
             for (j = 0; j < 10; j++){
                 SDL_Rect PI;
@@ -97,7 +105,7 @@ int main(int argc, char *argv[]){
             }
         }
 
-        ////////////////
+        // Piece(s)
         for (i = 0; i < 5; i++){
             for (j = 0; j < 5; j++){
             	SDL_Rect PI;
