@@ -5,6 +5,7 @@
 
 #include "grille.h"
 #include "carre.h"
+#include "piece.h"
 
 int pick = 0;
 int gameover = 0;
@@ -73,9 +74,12 @@ int main(int argc, char *argv[]){
 
     for (i = 0; i < 10; i++){
         for (j = 0; j < 10; j++){
-            const_Carre(&fenetre[i][j]);
+            const_Carre(&fenetre[i][j], 0);
         }
     }
+
+    Piece p;
+    const_Piece(&p, 5, 480, 200);
 
 
     while (!gameover){
@@ -92,6 +96,25 @@ int main(int argc, char *argv[]){
                 SDL_BlitSurface((fenetre[i][j].image), NULL, screen, &PI);
             }
         }
+
+        ////////////////
+        for (i = 0; i < 5; i++){
+            for (j = 0; j < 5; j++){
+            	SDL_Rect PI;
+            	if (1==pick){
+            		PI.x = i*32+x;
+            		PI.y = j*32+y;
+            		if (i==0 && j==0){
+            			p.pos=PI;
+            		}
+            	}else{
+            		PI.x = i*32+p.pos.x;
+            		PI.y = j*32+p.pos.y;
+            	}
+                SDL_BlitSurface((p.grille[i][j].image), NULL, screen, &PI);
+            }
+        }
+
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
