@@ -126,7 +126,11 @@ int main(int argc, char *argv[]){
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
+
+
+    // Desallocation
     SDL_FreeSurface(background);
+    desalloc_grille(fenetre,10);
     SDL_Quit();
     return 0;
 }

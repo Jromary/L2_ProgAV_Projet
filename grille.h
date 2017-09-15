@@ -6,5 +6,7 @@
 
 extern Carre** aloc_one(int taille);
 extern Carre* aloc_two(int taille);
+extern void desalloc_grille(Carre** tab, int taille);
+
 
 #endif /* GRILLE_H */

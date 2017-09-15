@@ -2,6 +2,8 @@
 
 #include "carre.h"
 
+
+/* Constructeur */
 void const_Carre(Carre *c, int couleur){
     SDL_Surface *temp, *carreI;
     (*c).actif = 0;
