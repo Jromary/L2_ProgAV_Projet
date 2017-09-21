@@ -6,6 +6,10 @@
 #define screen_length 720
 
 /* Nombre de pieces propose */
-#define NB_PIECE 1
+#define NB_PIECE_MAX 5
+
+/* Taille de la grille de jeu */
+#define PLATEAU_X 8
+#define PLATEAU_Y 12
 
 #endif /* GLOBALES_H */

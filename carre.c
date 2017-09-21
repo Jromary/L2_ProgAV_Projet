@@ -15,7 +15,6 @@ void const_Carre(Carre *c, int couleur){
     else
     {
    		temp = SDL_LoadBMP("C_default.bmp");
-	
     }
     carreI = SDL_DisplayFormat(temp);
     (*c).image = carreI;

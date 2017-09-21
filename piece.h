@@ -15,7 +15,7 @@ struct s_piece
 };
 typedef struct s_piece Piece;
 
-extern void const_Piece(Piece* p, int taillex, int tailley, int x, int y);
+extern Piece const_Piece(int taillex, int tailley, int x, int y);
 
 
 #endif /* PIECE_H */
