@@ -4,15 +4,18 @@
 #include <SDL.h>
 #include "grille.h"
 
-struct s_piece 
+struct s_piece
 {
+    int actif;
+    int dimx;
+    int dimy;
 	SDL_Rect pos;
 	SDL_Rect bd;
 	Carre** grille;
 };
 typedef struct s_piece Piece;
 
-extern void const_Piece(Piece* p, int taille, int x, int y);
+extern void const_Piece(Piece* p, int taillex, int tailley, int x, int y);
 
 
 #endif /* PIECE_H */
