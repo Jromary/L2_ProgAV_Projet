@@ -7,9 +7,11 @@
 
 /* Nombre de pieces propose */
 #define NB_PIECE_MAX 5
+#define MAX_INPUT 100
+#define MAX_INPUT_RAW 1000
 
 /* Taille de la grille de jeu */
-#define PLATEAU_X 8
-#define PLATEAU_Y 12
+#define PLATEAU_X 10
+#define PLATEAU_Y 10
 
 #endif /* GLOBALES_H */

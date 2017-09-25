@@ -11,5 +11,5 @@ struct Carre{
 };
 typedef struct Carre Carre;
 
-extern void const_Carre(Carre *c, int couleur);
+extern void const_Carre(Carre *c, int couleur, int actif);
 #endif /* CARRE_H */

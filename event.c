@@ -30,8 +30,8 @@ void update_events(char *keys, int x, int y)
                         tab_piece[i].actif = 0;
                     }else if(test == 0){
                         tab_piece[i].actif = 1;
+                        break;
                     }
-                    break;
                 }
             }
             break;

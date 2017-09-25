@@ -8,6 +8,7 @@
 #include "piece.h"
 #include "globals.h"
 #include "event.h"
+#include "chargement.h"
 
 extern SDL_Surface *screen;
 extern int gameover;
@@ -25,9 +26,10 @@ int main(int argc, char *argv[]){
     screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
     SDL_Surface *background, *temp;
 
-    temp = SDL_LoadBMP("bg.bmp");
+    temp = SDL_LoadBMP("Sprites/bg.bmp");
     background = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
+
 
     char key[SDLK_LAST] = {0};
 
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]){
 
     for (i = 0; i < PLATEAU_X; i++){
         for (j = 0; j < PLATEAU_Y; j++){
-            const_Carre(&plateau[i][j], 0);
+            const_Carre(&plateau[i][j], 0, 0);
         }
     }
 
@@ -55,39 +57,8 @@ int main(int argc, char *argv[]){
     for (i = 0; i < nb_piece; i++){
         printf("%d | %d \n", tab_piece[i].dimx, tab_piece[i].dimy);
     }
-    //Jusqu'ici tout va bien
 
-
-
-    /* ------------------ A DEMUTER ------------- */
-    /*
-    // Creation de la fenetre / grille de jeu
-    Carre** fenetre = aloc_one(10);
-    for (i = 0; i < 10; i++){
-        fenetre[i] = aloc_two(10);
-    }
-
-    for (i = 0; i < 10; i++){
-        for (j = 0; j < 10; j++){
-            const_Carre(&fenetre[i][j], 0);
-        }
-    }
-
-    // test piece
-    for (i = 0; i < NB_PIECE; i++){
-        Piece p;
-        const_Piece(&p, 3, 2, 200+64*i, 200);
-        tab_piece[i] = &p;
-    }
-
-
-    for (i = 0; i < NB_PIECE; i++){
-        printf("%d | %d \n", tab_piece[i]->dimx, tab_piece[i]->dimy);
-    }
-
-    */ ///////////////// A DEMUTER
-
-
+    load();
     /******* Boucle de jeu ******/
     while (!gameover){
 
@@ -102,18 +73,20 @@ int main(int argc, char *argv[]){
         // Grille de jeu
         for (i = 0; i < PLATEAU_X; i++){
             for (j = 0; j < PLATEAU_Y; j++){
+                SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
                 //printf("I = %d | J = %d \n", i,j);
                 SDL_Rect PI;
-                PI.x = i*32;
-                PI.y = j*32;
+                PI.x = 20 + i*32;
+                PI.y = 20 + j*32;
                 SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
             }
         }
 
-
+        /****** Blit des surfaces ******/
         for (k = 0; k < nb_piece; k++){
             for (i = 0; i < tab_piece[k].dimx; i++){
                 for (j = 0; j < tab_piece[k].dimy; j++){
+                    SDL_SetColorKey(tab_piece[k].grille[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, tab_piece[k].grille[i][j].colorkey);
                     SDL_Rect PI;
                     if (tab_piece[k].actif == 1){
                         PI.x = i*32+mouse_x;
@@ -137,76 +110,11 @@ int main(int argc, char *argv[]){
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-
-
-
-        /*********** A DEMUTER *****/
-    /*
-        SDL_GetMouseState(&x, &y);
-        //printf("%d | %d  \n", x, y);
-        update_events(key, x, y);
-    */
-        /****** Blit des surfaces ******/
-    /*
-        // Background
-        SDL_BlitSurface(background, NULL, screen, NULL);
-
-        for (i = 0; i < NB_PIECE; i++){
-            printf("%d | %d \n", tab_piece[i]->dimx, tab_piece[i]->dimy);
-        }
-
-        printf("AFFICHAGE GRILLE\n");
-        // Grille de jeu
-        for (i = 0; i < 10; i++){
-            for (j = 0; j < 10; j++){
-                SDL_Rect PI;
-                PI.x = i*32;
-                PI.y = j*32;
-              //  SDL_BlitSurface((fenetre[i][j].image), NULL, screen, &PI);
-            }
-        }
-
-        printf("AFFICHAGE PIECES\n");
-        // Piece(s)
-        for (i = 0; i < NB_PIECE; i++){
-            printf("%d | %d \n", tab_piece[i]->dimx, tab_piece[i]->dimy);
-        }
-
-        for (k = 0; k < NB_PIECE; k++){
-            for (i = 0; i < tab_piece[k]->dimx; i++){
-                printf("%d | %d \n", tab_piece[k]->dimx, tab_piece[k]->dimy);
-
-                for (j = 0; j < tab_piece[k]->dimy; j++){
-                    SDL_Rect PI;
-                    if (tab_piece[k]->actif == 1){
-                        PI.x = i*32+x;
-                        PI.y = j*32+y;
-                        if (i==0 && j==0){
-                            tab_piece[k]->pos=PI;
-                        }
-                    }else{
-                        PI.x = i*32+tab_piece[k]->pos.x;
-                        PI.y = j*32+tab_piece[k]->pos.y;
-                    }
-                    printf(" I === %d\n", i);
-
-                    SDL_BlitSurface((tab_piece[k]->grille[i][j].image), NULL, screen, &PI);
-                }
-            }
-
-        }
-
-
-        SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-    *////////////////////// A DEMUTER
-
-
     } // Fin whhile gamover
 
 
     // Desallocation
-    //SDL_FreeSurface(background);
+    SDL_FreeSurface(background);
     //desalloc_grille(fenetre,10);
     SDL_Quit();
     return 0;
