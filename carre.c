@@ -8,13 +8,16 @@ extern SDL_Surface *screen;
 
 
 /* Constructeur */
-void const_Carre(Carre *c, int couleur, int actif){
+void const_Carre(Carre *c, int couleur, int act){
     SDL_Surface *temp, *carreI;
-    (*c).actif = actif;
+    (*c).actif = act;
     (*c).couleur = couleur;
-    if(couleur==1)
+    if(couleur == 1)
     {
     	temp = SDL_LoadBMP("Sprites/frites.bmp");
+    }
+    else if (couleur == 0){
+        temp = SDL_LoadBMP("Sprites/Transparent.bmp");
     }
     else
     {

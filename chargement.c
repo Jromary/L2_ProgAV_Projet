@@ -19,6 +19,66 @@ void load(){
     for(i = 0; i < nb_max_input_raw; i++){
         printf("%d\n", tab_piece_all_raw[i]);
     }
+
+    i = 0;
+    int temp1, temp2, j, nb, larg, haut, deb;
+
+    while (i < nb_max_input_raw){
+            haut = 0;
+            temp2 = i;
+            deb = i;
+        while (tab_piece_all_raw[i] != 0){
+            i++;
+            temp2++;
+            haut++;
+        }
+        i++;
+        temp1 = tab_piece_all_raw[deb];
+        larg = 0;
+        while (temp1 >= 1){
+            temp1 = temp1 / 10;
+            larg++;
+        }
+
+
+        tab_piece_all[nb_max_input] = const_Piece(larg, haut, 0, 0);
+        printf("\n NOUVELLE PIECE: \n");
+        for (j = 0; j < haut; j++){
+            temp1 = tab_piece_all_raw[deb+j];
+            int countcol = 0;
+            while (temp1 >= 1){
+                printf("j = %d | countcol = %d\n", j, countcol);
+                nb = temp1 % 10;
+                temp1 = temp1 / 10;
+                switch (nb){
+                    case 1:
+                        /*cas ou la case doit etre de l'air*/
+                        const_Carre(&tab_piece_all[nb_max_input].grille[j][countcol], 0, 0);
+                        break;
+                    case 8:
+                        /*cas ou la case est utilisé*/
+                        const_Carre(&tab_piece_all[nb_max_input].grille[j][countcol], 1, 1);
+                        break;
+                    default:
+                        printf("ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE");
+
+                }
+                countcol++;
+            }
+        }
+
+        nb_max_input++;
+    }
     fclose(fichier);
 
 }
+
+
+/***
+temp = tab_piece_all_raw[i];
+            while (temp > 1){
+                temp1 % 10 = chifre des unitées
+                temp1 = int temp1/10 = recois temp1 sans les unite
+Piece tab_piece_all[nb_max_input] =
+            }
+***/

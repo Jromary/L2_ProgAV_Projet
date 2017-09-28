@@ -19,12 +19,12 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
 	nouvelle_piece.actif = 0;
 	nouvelle_piece.dimx = taillex;
 	nouvelle_piece.dimy = tailley;
-    printf("TAILLE X = %d\n",nouvelle_piece.dimx);
+    //printf("TAILLE X = %d\n",nouvelle_piece.dimx);
 
 
 	for (int i = 0; i < taillex; i++){
         for (int j = 0; j < tailley; j++){
-            const_Carre(&(nouvelle_piece.grille[i][j]), 1, 1); // COuleur a mettre à 0 par defaut.
+            const_Carre(&(nouvelle_piece.grille[i][j]), 999, 0); // COuleur a mettre à 0 par defaut.
         }
     }
     nb_piece++;

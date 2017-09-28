@@ -14,6 +14,8 @@ extern SDL_Surface *screen;
 extern int gameover;
 extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
+extern Piece tab_piece_all[MAX_INPUT];
+extern int nb_max_input;
 
 
 
@@ -45,19 +47,23 @@ int main(int argc, char *argv[]){
 
     for (i = 0; i < PLATEAU_X; i++){
         for (j = 0; j < PLATEAU_Y; j++){
-            const_Carre(&plateau[i][j], 0, 0);
+            const_Carre(&plateau[i][j], 999, 0);
         }
     }
 
     // test piece
+    /*
     while (nb_piece < NB_PIECE_MAX){
         tab_piece[nb_piece] = const_Piece(4, 2, 200+70*nb_piece, 200);
     }
 
     for (i = 0; i < nb_piece; i++){
         printf("%d | %d \n", tab_piece[i].dimx, tab_piece[i].dimy);
+    }*/
+    while (nb_piece < nb_max_input && nb_piece < NB_PIECE_MAX){
+        tab_piece[nb_piece] = tab_piece_all[nb_piece];
+        nb_piece ++;
     }
-
     load();
     /******* Boucle de jeu ******/
     while (!gameover){
