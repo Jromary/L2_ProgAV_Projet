@@ -17,6 +17,6 @@ typedef struct s_piece Piece;
 extern Piece copie_Piece(Piece piece_ref);
 
 extern Piece const_Piece(int taillex, int tailley, int x, int y);
-
+extern void free_piece(Piece *p);
 
 #endif /* PIECE_H */

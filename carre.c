@@ -28,3 +28,8 @@ void const_Carre(Carre *c, int couleur, int act){
     SDL_FreeSurface(temp);
     (*c).colorkey = SDL_MapRGB(screen->format, 255, 0, 255);
 }
+
+
+void free_Carre(Carre * c){
+    //SDL_FreeSurface((*c).image);
+}

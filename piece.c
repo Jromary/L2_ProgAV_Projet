@@ -28,6 +28,12 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
     return nouvelle_piece;
 }
 
+void free_piece(Piece *p){
+    free_grille((*p).grille, (*p).dimy, (*p).dimx);
+    //free(p);
+}
+
+
 Piece copie_Piece(Piece piece_ref)
 {
     Piece nouvellePiece = const_Piece(piece_ref.dimx, piece_ref.dimy, piece_ref.pos.x, piece_ref.pos.y);

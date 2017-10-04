@@ -124,7 +124,16 @@ int main(int argc, char *argv[]){
 
     // Desallocation
     SDL_FreeSurface(background);
-    //desalloc_grille(fenetre,10);
+    /*** Desaloc a gerer ***/
+
+    free_grille(plateau, 10, 10);
+    for (i = 0; i < nb_piece; i++){
+        free_piece(&tab_piece[i]);
+    }
+    for (i = 0; i < nb_max_input; i++){
+        free_piece(&tab_piece_all[i]);
+    }
+
     SDL_Quit();
     return 0;
 }
