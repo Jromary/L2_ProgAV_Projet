@@ -5,16 +5,6 @@
 #include "carre.h"
 #include "grille.h"
 
-
-
-
-/****
-Comme tableaux carrés, pourquoi pas utilise Carre tab[N][M] ?
-=> manipulation de tableau en alloc automatic (?)
-=> si oui => free automatiquement
-
-****/
-
 Carre** alloc_grille(int taille_x, int taille_y)
 {
     int i;

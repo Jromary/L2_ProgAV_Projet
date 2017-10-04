@@ -19,16 +19,26 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
 	nouvelle_piece.actif = 0;
 	nouvelle_piece.dimx = taillex;
 	nouvelle_piece.dimy = tailley;
-    //printf("TAILLE X = %d\n",nouvelle_piece.dimx);
-
 
 	for (int i = 0; i < taillex; i++){
         for (int j = 0; j < tailley; j++){
             const_Carre(&(nouvelle_piece.grille[i][j]), 999, 0); // COuleur a mettre à 0 par defaut.
         }
     }
-    nb_piece++;
-
     return nouvelle_piece;
 }
 
+Piece copie_Piece(Piece piece_ref)
+{
+    Piece nouvellePiece = const_Piece(piece_ref.dimx, piece_ref.dimy, piece_ref.pos.x, piece_ref.pos.y);
+
+    int i,j;
+    for(i=0; i<piece_ref.dimx; i++)
+    {
+        for(j=0; j<piece_ref.dimy; j++)
+        {
+           const_Carre(&nouvellePiece.grille[i][j], piece_ref.grille[i][j].couleur, piece_ref.grille[i][j].actif);
+        }
+    }
+    return nouvellePiece;
+}

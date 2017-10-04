@@ -60,11 +60,15 @@ int main(int argc, char *argv[]){
     for (i = 0; i < nb_piece; i++){
         printf("%d | %d \n", tab_piece[i].dimx, tab_piece[i].dimy);
     }*/
-    while (nb_piece < nb_max_input && nb_piece < NB_PIECE_MAX){
-        tab_piece[nb_piece] = tab_piece_all[nb_piece];
-        nb_piece ++;
-    }
     load();
+    nb_piece = 0;
+    while (nb_piece < nb_max_input && nb_piece < NB_PIECE_MAX){
+        tab_piece[nb_piece] = copie_Piece(tab_piece_all[nb_piece]);
+        nb_piece++;
+        printf("nb piece : %d \n", nb_piece);
+    }
+
+
     /******* Boucle de jeu ******/
     while (!gameover){
 
@@ -87,6 +91,8 @@ int main(int argc, char *argv[]){
                 SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
             }
         }
+        //printf("%d | %d\n", tab_piece_all[0].dimx, tab_piece_all[0].dimy);
+        //printf("dimx = %d | dimy = %d\n", tab_piece[0].dimx, tab_piece[0].dimy);
 
         /****** Blit des surfaces ******/
         for (k = 0; k < nb_piece; k++){
@@ -101,7 +107,6 @@ int main(int argc, char *argv[]){
                             tab_piece[k].pos=PI;
                             tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
                             tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
-
                         }
                     }else{
                         PI.x = i*32+tab_piece[k].pos.x;
@@ -111,8 +116,6 @@ int main(int argc, char *argv[]){
                 }
             }
         }
-
-
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 

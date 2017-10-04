@@ -14,6 +14,7 @@ struct s_piece
 	Carre** grille;
 };
 typedef struct s_piece Piece;
+extern Piece copie_Piece(Piece piece_ref);
 
 extern Piece const_Piece(int taillex, int tailley, int x, int y);
 

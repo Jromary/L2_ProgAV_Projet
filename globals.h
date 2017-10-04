@@ -6,7 +6,7 @@
 #define screen_length 720
 
 /* Nombre de pieces propose */
-#define NB_PIECE_MAX 5
+#define NB_PIECE_MAX 7
 #define MAX_INPUT 100
 #define MAX_INPUT_RAW 1000
 

@@ -4,7 +4,6 @@
 #include <SDL.h>
 #include "carre.h"
 
-
 extern Carre** alloc_grille(int taille_x, int taille_y);
 
 //extern Carre** aloc_one(int taille);

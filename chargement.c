@@ -42,25 +42,24 @@ void load(){
 
 
         tab_piece_all[nb_max_input] = const_Piece(larg, haut, 0, 0);
-        printf("\n NOUVELLE PIECE: \n");
         for (j = 0; j < haut; j++){
             temp1 = tab_piece_all_raw[deb+j];
             int countcol = 0;
             while (temp1 >= 1){
-                printf("j = %d | countcol = %d\n", j, countcol);
+                //printf("j = %d | countcol = %d\n", j, countcol);
                 nb = temp1 % 10;
                 temp1 = temp1 / 10;
                 switch (nb){
                     case 1:
                         /*cas ou la case doit etre de l'air*/
-                        const_Carre(&tab_piece_all[nb_max_input].grille[j][countcol], 0, 0);
+                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 0, 0);
                         break;
                     case 8:
                         /*cas ou la case est utilisé*/
-                        const_Carre(&tab_piece_all[nb_max_input].grille[j][countcol], 1, 1);
+                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 1, 1);
                         break;
                     default:
-                        printf("ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE");
+                        printf("ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
 
                 }
                 countcol++;
@@ -73,12 +72,3 @@ void load(){
 
 }
 
-
-/***
-temp = tab_piece_all_raw[i];
-            while (temp > 1){
-                temp1 % 10 = chifre des unitées
-                temp1 = int temp1/10 = recois temp1 sans les unite
-Piece tab_piece_all[nb_max_input] =
-            }
-***/
