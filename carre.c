@@ -30,6 +30,13 @@ void const_Carre(Carre *c, int couleur, int act){
 }
 
 
+Carre copie_carre(Carre reff){
+    Carre nouveau_carre;
+    const_Carre(&nouveau_carre, reff.couleur, reff.actif);
+    return nouveau_carre;
+}
+
+
 void free_Carre(Carre * c){
     //SDL_FreeSurface((*c).image);
 }

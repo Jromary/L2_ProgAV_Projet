@@ -20,6 +20,7 @@ extern int nb_max_input;
 
 
 int main(int argc, char *argv[]){
+    srand(time(NULL));
     /* Initialisation de SDL */
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption("PentoTrice", "PentoTrice");
@@ -51,19 +52,10 @@ int main(int argc, char *argv[]){
         }
     }
 
-    // test piece
-    /*
-    while (nb_piece < NB_PIECE_MAX){
-        tab_piece[nb_piece] = const_Piece(4, 2, 200+70*nb_piece, 200);
-    }
-
-    for (i = 0; i < nb_piece; i++){
-        printf("%d | %d \n", tab_piece[i].dimx, tab_piece[i].dimy);
-    }*/
     load();
     nb_piece = 0;
-    while (nb_piece < nb_max_input && nb_piece < NB_PIECE_MAX){
-        tab_piece[nb_piece] = copie_Piece(tab_piece_all[nb_piece]);
+    while (nb_piece < NB_PIECE_MAX){
+        tab_piece[nb_piece] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
         nb_piece++;
         printf("nb piece : %d \n", nb_piece);
     }
@@ -74,23 +66,14 @@ int main(int argc, char *argv[]){
 
         SDL_GetMouseState(&mouse_x, &mouse_y);
 
-        update_events(key, mouse_x, mouse_y);
+        update_events(key, mouse_x, mouse_y, plateau);
 
         // Background
         SDL_BlitSurface(background, NULL, screen, NULL);
 
 
         // Grille de jeu
-        for (i = 0; i < PLATEAU_X; i++){
-            for (j = 0; j < PLATEAU_Y; j++){
-                SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
-                //printf("I = %d | J = %d \n", i,j);
-                SDL_Rect PI;
-                PI.x = 20 + i*32;
-                PI.y = 20 + j*32;
-                SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
-            }
-        }
+
         //printf("%d | %d\n", tab_piece_all[0].dimx, tab_piece_all[0].dimy);
         //printf("dimx = %d | dimy = %d\n", tab_piece[0].dimx, tab_piece[0].dimy);
 
@@ -117,6 +100,16 @@ int main(int argc, char *argv[]){
             }
         }
 
+         for (i = 0; i < PLATEAU_X; i++){
+            for (j = 0; j < PLATEAU_Y; j++){
+                SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
+                //printf("I = %d | J = %d \n", i,j);
+                SDL_Rect PI;
+                PI.x = 32 + i*32;
+                PI.y = 32 + j*32;
+                SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
+            }
+        }
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
     } // Fin whhile gamover

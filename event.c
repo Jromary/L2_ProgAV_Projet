@@ -1,13 +1,18 @@
+#include <math.h>
+#include <SDL.h>
+
 #include "globals.h"
 #include "piece.h"
-#include <SDL.h>
+#include "carre.h"
+#include "event.h"
+
 
 
 extern int gameover;
 extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
 
-void update_events(char *keys, int x, int y)
+void update_events(char *keys, int x, int y, Carre **plateau)
 {
     int test = 0;
 	SDL_Event event;
@@ -28,6 +33,7 @@ void update_events(char *keys, int x, int y)
                 if ((x >= tab_piece[i].pos.x) && (x <= tab_piece[i].bd.x) && (y >= tab_piece[i].pos.y) && (y <= tab_piece[i].bd.y)){
                     if (tab_piece[i].actif == 1){
                         tab_piece[i].actif = 0;
+                        deposer_piece(i, plateau, x, y);
                     }else if(test == 0){
                         tab_piece[i].actif = 1;
                         break;
@@ -57,3 +63,30 @@ void update_events(char *keys, int x, int y)
 		}
 	}
 }
+
+
+
+
+
+void deposer_piece(int id, Carre **g, int posx, int posy){
+    int x, y;
+    int i, j;
+    x = (int)(floor(posx/32));
+    y = (int)(floor(posy/32));
+    /* test si la piece peut etre placer */
+    for (i = 0; i < tab_piece[id].dimx; i++){
+        for (j = 0; j < tab_piece[id].dimy; j++){
+            if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
+                g[x+i-1][y+j-1] = copie_carre(tab_piece[id].grille[i][j]);
+            }
+        }
+    }
+
+
+}
+
+
+
+
+
+
