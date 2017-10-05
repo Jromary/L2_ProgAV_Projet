@@ -69,19 +69,37 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 
 
 void deposer_piece(int id, Carre **g, int posx, int posy){
+    int posable = 1;
     int x, y;
     int i, j;
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
-    /* test si la piece peut etre placer */
     for (i = 0; i < tab_piece[id].dimx; i++){
         for (j = 0; j < tab_piece[id].dimy; j++){
+
             if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
-                g[x+i-1][y+j-1] = copie_carre(tab_piece[id].grille[i][j]);
+                if (g[x+i-1][y+j-1].actif == 1 && tab_piece[id].grille[i][j].actif == 1){
+                    posable = 0;
+                }
+            }
+            else{
+                posable = 0;
             }
         }
     }
 
+    /* test si la piece peut etre placer */
+    if (posable == 1){
+        for (i = 0; i < tab_piece[id].dimx; i++){
+            for (j = 0; j < tab_piece[id].dimy; j++){
+                if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
+                    if (tab_piece[id].grille[i][j].actif != 0){
+                        g[x+i-1][y+j-1] = copie_carre(tab_piece[id].grille[i][j]);
+                    }
+                }
+            }
+        }
+    }
 
 }
 

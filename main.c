@@ -73,6 +73,16 @@ int main(int argc, char *argv[]){
 
 
         // Grille de jeu
+        for (i = 0; i < PLATEAU_X; i++){
+            for (j = 0; j < PLATEAU_Y; j++){
+                SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
+                //printf("I = %d | J = %d \n", i,j);
+                SDL_Rect PI;
+                PI.x = 32 + i*32;
+                PI.y = 32 + j*32;
+                SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
+            }
+        }
 
         //printf("%d | %d\n", tab_piece_all[0].dimx, tab_piece_all[0].dimy);
         //printf("dimx = %d | dimy = %d\n", tab_piece[0].dimx, tab_piece[0].dimy);
@@ -100,16 +110,7 @@ int main(int argc, char *argv[]){
             }
         }
 
-         for (i = 0; i < PLATEAU_X; i++){
-            for (j = 0; j < PLATEAU_Y; j++){
-                SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
-                //printf("I = %d | J = %d \n", i,j);
-                SDL_Rect PI;
-                PI.x = 32 + i*32;
-                PI.y = 32 + j*32;
-                SDL_BlitSurface((plateau[i][j].image), NULL, screen, &PI);
-            }
-        }
+
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
     } // Fin whhile gamover
