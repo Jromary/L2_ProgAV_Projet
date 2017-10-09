@@ -12,17 +12,24 @@ void const_Carre(Carre *c, int couleur, int act){
     SDL_Surface *temp, *carreI;
     (*c).actif = act;
     (*c).couleur = couleur;
-    if(couleur == 1)
-    {
-    	temp = SDL_LoadBMP("Sprites/frites.bmp");
-    }
-    else if (couleur == 0){
+    switch (couleur){
+    case 1:
+        temp = SDL_LoadBMP("Sprites/frites.bmp");
+        break;
+    case 2:
+        temp = SDL_LoadBMP("Sprites/canette.bmp");
+        break;
+    case 3:
+        temp = SDL_LoadBMP("Sprites/hotdog.bmp");
+        break;
+    case 0:
         temp = SDL_LoadBMP("Sprites/Transparent.bmp");
+        break;
+    default:
+        temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
+        break;
     }
-    else
-    {
-   		temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
-    }
+
     carreI = SDL_DisplayFormat(temp);
     (*c).image = carreI;
     SDL_FreeSurface(temp);

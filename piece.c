@@ -10,27 +10,27 @@ extern int nb_piece;
 
 Piece const_Piece(int taillex, int tailley, int x, int y)
 {
-    Piece nouvelle_piece;
-	nouvelle_piece.pos.x = x;
-	nouvelle_piece.pos.y = y;
-	nouvelle_piece.bd.x = 32 * taillex + x;
-	nouvelle_piece.bd.y = 32 * tailley + y;
-	nouvelle_piece.grille = alloc_grille(taillex,tailley);
-	nouvelle_piece.actif = 0;
-	nouvelle_piece.dimx = taillex;
-	nouvelle_piece.dimy = tailley;
+    Piece *nouvelle_piece = malloc(sizeof(Piece));
+	nouvelle_piece->pos.x = x;
+	nouvelle_piece->pos.y = y;
+	nouvelle_piece->bd.x = 32 * taillex + x;
+	nouvelle_piece->bd.y = 32 * tailley + y;
+	nouvelle_piece->grille = alloc_grille(taillex,tailley);
+	nouvelle_piece->actif = 0;
+	nouvelle_piece->dimx = taillex;
+	nouvelle_piece->dimy = tailley;
 
+    int alea = (rand() % 3) + 1;
 	for (int i = 0; i < taillex; i++){
         for (int j = 0; j < tailley; j++){
-            const_Carre(&(nouvelle_piece.grille[i][j]), 999, 0); // COuleur a mettre à 0 par defaut.
+            const_Carre(&(nouvelle_piece->grille[i][j]), alea, 0);
         }
     }
-    return nouvelle_piece;
+    return (*nouvelle_piece);
 }
 
 void free_piece(Piece *p){
     free_grille((*p).grille, (*p).dimy, (*p).dimx);
-    //free(p);
 }
 
 

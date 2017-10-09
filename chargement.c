@@ -42,6 +42,7 @@ void load(){
 
 
         tab_piece_all[nb_max_input] = const_Piece(larg, haut, 0, 0);
+        int alea = (rand() % 3) + 1;
         for (j = 0; j < haut; j++){
             temp1 = tab_piece_all_raw[deb+j];
             int countcol = 0;
@@ -56,7 +57,7 @@ void load(){
                         break;
                     case 8:
                         /*cas ou la case est utilisé*/
-                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 1, 1);
+                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], alea, 1);
                         break;
                     default:
                         printf("ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");

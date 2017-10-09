@@ -30,5 +30,4 @@ void free_grille(Carre** tab, int tailley, int taillex)
 	}
 	free(tab);
 	tab = NULL;
-	return;
 }

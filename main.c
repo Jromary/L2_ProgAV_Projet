@@ -33,10 +33,7 @@ int main(int argc, char *argv[]){
     background = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
 
-
     char key[SDLK_LAST] = {0};
-
-
 
     int mouse_x, mouse_y;
     mouse_x = 0;
@@ -86,6 +83,10 @@ int main(int argc, char *argv[]){
 
         /****** Blit des surfaces ******/
         for (k = 0; k < nb_piece; k++){
+                tab_piece[k].pos.x = 500;
+                tab_piece[k].pos.y = k * screen_height/nb_piece;
+                tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
+                tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
             for (i = 0; i < tab_piece[k].dimx; i++){
                 for (j = 0; j < tab_piece[k].dimy; j++){
                     SDL_SetColorKey(tab_piece[k].grille[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, tab_piece[k].grille[i][j].colorkey);
@@ -99,11 +100,6 @@ int main(int argc, char *argv[]){
                             tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
                         }
                     }else{
-                        tab_piece[k].pos.x = 500;
-                        tab_piece[k].pos.y = k * screen_height/nb_piece;
-                        tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
-                        tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
-
                         PI.x = i*32+tab_piece[k].pos.x;
                         PI.y = j*32+tab_piece[k].pos.y;
                     }
@@ -121,8 +117,8 @@ int main(int argc, char *argv[]){
     // Desallocation
     SDL_FreeSurface(background);
     /*** Desaloc a gerer ***/
-
     free_grille(plateau, 10, 10);
+
     for (i = 0; i < nb_piece; i++){
         free_piece(&tab_piece[i]);
     }

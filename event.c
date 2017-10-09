@@ -76,6 +76,8 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
     int i, j;
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
+
+    /* test si la piece peut etre placer */
     for (i = 0; i < tab_piece[id].dimx; i++){
         for (j = 0; j < tab_piece[id].dimy; j++){
 
@@ -90,7 +92,7 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
         }
     }
 
-    /* test si la piece peut etre placer */
+    /*Si la piece peut etre placer*/
     if (posable == 1){
         for (i = 0; i < tab_piece[id].dimx; i++){
             for (j = 0; j < tab_piece[id].dimy; j++){

@@ -4,7 +4,7 @@
 
 SDL_Surface *screen;
 
-Piece tab_piece[NB_PIECE_MAX];
+Piece* tab_piece[NB_PIECE_MAX];
 
 int tab_piece_all_raw[MAX_INPUT_RAW];
 
