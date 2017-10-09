@@ -11,7 +11,7 @@
 #define MAX_INPUT_RAW 10000
 
 /* Taille de la grille de jeu */
-#define PLATEAU_X 10
+#define PLATEAU_X 12
 #define PLATEAU_Y 10
 
 #endif /* GLOBALES_H */

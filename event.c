@@ -102,10 +102,50 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
             }
         }
         tab_piece[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+        grille_LC(g, PLATEAU_X, PLATEAU_Y);
     }
 
 }
 
+
+void grille_LC(Carre **g, int larg, int haut){
+    int tab_a_changer[larg+haut];
+    int i, j;
+    int test = 1;
+    /*Only god know how it work*/
+    for (i = 0; i < haut; i++){
+        test = 1;
+        for (j = 0; j < larg; j++){
+            if (g[j][i].actif == 0){
+                test = 0;
+            }
+        }
+        tab_a_changer[i] = test;
+    }
+    for (j = 0; j < larg; j++){
+        test = 1;
+        for (i = 0; i < haut; i++){
+            if (g[j][i].actif == 0){
+                test = 0;
+            }
+        }
+        tab_a_changer[haut+j] = test;
+    }
+    for (i = 0; i < haut; i++){
+        if (tab_a_changer[i] == 1){
+            for (j = 0; j < larg; j++){
+                const_Carre(&g[j][i], 999, 0);
+            }
+        }
+    }
+    for (j = 0; j < larg; j++){
+        if (tab_a_changer[haut+j] == 1){
+            for (i = 0; i < haut; i++){
+                const_Carre(&g[j][i], 999, 0);
+            }
+        }
+    }
+}
 
 
 
