@@ -11,6 +11,8 @@
 extern int gameover;
 extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
+extern Piece tab_piece_all[MAX_INPUT];
+extern int nb_max_input;
 
 void update_events(char *keys, int x, int y, Carre **plateau)
 {
@@ -99,6 +101,7 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
                 }
             }
         }
+        tab_piece[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
     }
 
 }

@@ -84,9 +84,6 @@ int main(int argc, char *argv[]){
             }
         }
 
-        //printf("%d | %d\n", tab_piece_all[0].dimx, tab_piece_all[0].dimy);
-        //printf("dimx = %d | dimy = %d\n", tab_piece[0].dimx, tab_piece[0].dimy);
-
         /****** Blit des surfaces ******/
         for (k = 0; k < nb_piece; k++){
             for (i = 0; i < tab_piece[k].dimx; i++){
@@ -102,6 +99,11 @@ int main(int argc, char *argv[]){
                             tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
                         }
                     }else{
+                        tab_piece[k].pos.x = 500;
+                        tab_piece[k].pos.y = k * screen_height/nb_piece;
+                        tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
+                        tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
+
                         PI.x = i*32+tab_piece[k].pos.x;
                         PI.y = j*32+tab_piece[k].pos.y;
                     }
@@ -113,7 +115,7 @@ int main(int argc, char *argv[]){
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-    } // Fin whhile gamover
+    } // Fin while gamover
 
 
     // Desallocation
