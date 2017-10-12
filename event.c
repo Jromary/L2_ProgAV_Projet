@@ -60,6 +60,7 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_ESCAPE:
+			    finjeu = 1;
 				gameover = 1;
 				break;
 			default:
@@ -218,6 +219,8 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
             break;
 		case SDL_QUIT:
 			gameover = 1;
+			finjeu = 1;
+			gameover_menu = 1;
 			break;
 		case SDL_KEYUP:
 			keys[event.key.keysym.sym] = 0;

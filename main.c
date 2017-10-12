@@ -17,6 +17,7 @@ extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
 extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
+extern int nb_max_input_raw;
 extern int finjeu;
 
 
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]){
     /* Initialisation de SDL */
     SDL_Init(SDL_INIT_VIDEO);
     while (!finjeu){
-    accueil(argc, argv);
+
 
     SDL_WM_SetCaption("PentoTrice", "PentoTrice");
     SDL_EnableKeyRepeat(10, 100);
@@ -58,10 +59,9 @@ int main(int argc, char *argv[]){
     while (nb_piece < NB_PIECE_MAX){
         tab_piece[nb_piece] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
         nb_piece++;
-        printf("nb piece : %d \n", nb_piece);
     }
 
-
+    accueil(argc, argv);
     /******* Boucle de jeu ******/
     while (!gameover){
 
@@ -77,7 +77,6 @@ int main(int argc, char *argv[]){
         for (i = 0; i < PLATEAU_X; i++){
             for (j = 0; j < PLATEAU_Y; j++){
                 SDL_SetColorKey(plateau[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, plateau[i][j].colorkey);
-                //printf("I = %d | J = %d \n", i,j);
                 SDL_Rect PI;
                 PI.x = 32 + i*32;
                 PI.y = 32 + j*32;
@@ -129,6 +128,9 @@ int main(int argc, char *argv[]){
     for (i = 0; i < nb_max_input; i++){
         free_piece(&tab_piece_all[i]);
     }
+    nb_piece = 0;
+    nb_max_input = 0;
+    nb_max_input_raw = 0;
     }
     SDL_Quit();
     return 0;

@@ -47,7 +47,6 @@ void load(){
             temp1 = tab_piece_all_raw[deb+j];
             int countcol = 0;
             while (temp1 >= 1){
-                //printf("j = %d | countcol = %d\n", j, countcol);
                 nb = temp1 % 10;
                 temp1 = temp1 / 10;
                 switch (nb){
