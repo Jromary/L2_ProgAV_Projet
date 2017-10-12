@@ -9,13 +9,13 @@ extern int gameover_menu;
 
 void accueil(int argc, char *argv[])
 {
-    SDL_WM_SetCaption("PentoTrice", "PentoTrice");
-    SDL_EnableKeyRepeat(10, 100);
+	SDL_WM_SetCaption("PentoTrice", "PentoTrice");
+	SDL_EnableKeyRepeat(10, 100);
 
-    screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
-    SDL_Surface *background, *temp;
+	screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
+	SDL_Surface *background, *temp;
 
-    temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
+	temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
 	background = SDL_DisplayFormat(temp);
 	SDL_FreeSurface(temp);
 
@@ -24,9 +24,9 @@ void accueil(int argc, char *argv[])
 
 	while (!gameover_menu)
 	{
-	    SDL_GetMouseState(&mouse_x, &mouse_y);
-	    eventact_menu(key, mouse_x, mouse_y, &background);
-	    SDL_BlitSurface(background, NULL, screen, NULL);
+		SDL_GetMouseState(&mouse_x, &mouse_y);
+		eventact_menu(key, mouse_x, mouse_y, &background);
+		SDL_BlitSurface(background, NULL, screen, NULL);
 
 
 	    SDL_UpdateRect(screen, 0, 0, 0, 0);
