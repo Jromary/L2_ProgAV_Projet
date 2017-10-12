@@ -9,6 +9,12 @@
 
 
 extern int gameover;
+extern int gameover_menu;
+extern int finjeu;
+
+
+extern int fenetre_menu;
+
 extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
 extern Piece tab_piece_all[MAX_INPUT];
@@ -45,6 +51,7 @@ void update_events(char *keys, int x, int y, Carre **plateau)
             break;
 		case SDL_QUIT:
 			gameover = 1;
+			finjeu = 1;
 			break;
 		case SDL_KEYUP:
 			keys[event.key.keysym.sym] = 0;
@@ -148,6 +155,115 @@ void grille_LC(Carre **g, int larg, int haut){
         }
     }
 }
+
+
+
+void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
+{
+    SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+        case SDL_MOUSEBUTTONDOWN:
+            if (x > 270 && x < 471){
+                if (y > 92 && y < 153){
+                    if (fenetre_menu == 0){
+                        gameover_menu = 1;
+                        fenetre_menu = 1;
+                    }
+                    break;
+                }
+                if (y > 170 && y < 230){
+                    if (fenetre_menu == 0){
+                        SDL_Surface *temp;
+                        temp = SDL_LoadBMP("Sprites/scores.bmp");
+                        (*background) = SDL_DisplayFormat(temp);
+                        SDL_FreeSurface(temp);
+                        fenetre_menu = 1;
+                    }
+                    break;
+                }
+                if (y > 248 && y < 310){
+                    if (fenetre_menu == 0){
+                        SDL_Surface *temp;
+                        temp = SDL_LoadBMP("Sprites/credits_bg.bmp");
+                        (*background) = SDL_DisplayFormat(temp);
+                        SDL_FreeSurface(temp);
+                        fenetre_menu = 1;
+                    }
+                    break;
+                }
+                if (y > 326 && y < 388){
+                    if (fenetre_menu == 0){
+                        finjeu = 1;
+                        gameover_menu = 1;
+                        gameover = 1;
+                    }
+                    break;
+                }
+                if (y > 390 && y < 452){
+                    if (fenetre_menu == 1){
+                        SDL_Surface *temp;
+                        temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
+                        (*background) = SDL_DisplayFormat(temp);
+                        SDL_FreeSurface(temp);
+                        fenetre_menu = 0;
+                    }
+                    break;
+                }
+
+            }
+
+            break;
+		case SDL_QUIT:
+			gameover = 1;
+			break;
+		case SDL_KEYUP:
+			keys[event.key.keysym.sym] = 0;
+			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				gameover = 1;
+				gameover_menu = 1;
+				finjeu = 1;
+				break;
+			default:
+				break;
+			}
+			keys[event.key.keysym.sym] = 1;
+			break;
+		default:
+			break;
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

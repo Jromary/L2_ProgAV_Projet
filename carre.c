@@ -45,5 +45,5 @@ Carre copie_carre(Carre reff){
 
 
 void free_Carre(Carre * c){
-    //SDL_FreeSurface((*c).image);
+    SDL_FreeSurface((*c).image);
 }

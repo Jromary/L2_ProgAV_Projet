@@ -9,6 +9,7 @@
 #include "globals.h"
 #include "event.h"
 #include "chargement.h"
+#include "menu.h"
 
 extern SDL_Surface *screen;
 extern int gameover;
@@ -16,13 +17,16 @@ extern Piece tab_piece[NB_PIECE_MAX];
 extern int nb_piece;
 extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
-
+extern int finjeu;
 
 
 int main(int argc, char *argv[]){
     srand(time(NULL));
     /* Initialisation de SDL */
     SDL_Init(SDL_INIT_VIDEO);
+    while (!finjeu){
+    accueil(argc, argv);
+
     SDL_WM_SetCaption("PentoTrice", "PentoTrice");
     SDL_EnableKeyRepeat(10, 100);
 
@@ -125,7 +129,7 @@ int main(int argc, char *argv[]){
     for (i = 0; i < nb_max_input; i++){
         free_piece(&tab_piece_all[i]);
     }
-
+    }
     SDL_Quit();
     return 0;
 }
