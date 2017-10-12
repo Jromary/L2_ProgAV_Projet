@@ -1,4 +1,6 @@
 #include <math.h>
+#include <time.h>
+
 #include <SDL.h>
 
 #include "globals.h"
@@ -20,7 +22,7 @@ extern int nb_piece;
 extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
 
-extern int pieceSaisie;
+extern int delai_piece;
 
 void update_events(char *keys, int x, int y, Carre **plateau)
 {
@@ -44,10 +46,8 @@ void update_events(char *keys, int x, int y, Carre **plateau)
                     if (tab_piece[i].actif == 1){
                         tab_piece[i].actif = 0;
                         deposer_piece(i, plateau, x, y);
-			pieceSaisie = 0;
                     }else if(test == 0){
                         tab_piece[i].actif = 1;
-			pieceSaisie = 1;
                         break;
                     }
                 }
@@ -116,6 +116,7 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
             }
         }
         tab_piece[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+	delai_piece = time(0);
         grille_LC(g, PLATEAU_X, PLATEAU_Y);
     }
 
@@ -173,14 +174,14 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
         case SDL_MOUSEBUTTONDOWN:
             if (x > 270 && x < 471){
                 if (y > 92 && y < 153){
-                    if (fenetre_menu == 0){
+                    if (fenetre_menu == 0){ // Jouer
                         gameover_menu = 1;
-                        fenetre_menu = 1;
+                        //fenetre_menu = 1;
                     }
                     break;
                 }
                 if (y > 170 && y < 230){
-                    if (fenetre_menu == 0){
+                    if (fenetre_menu == 0){ // Scores
                         SDL_Surface *temp;
                         temp = SDL_LoadBMP("Sprites/scores.bmp");
                         (*background) = SDL_DisplayFormat(temp);
@@ -190,7 +191,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                     break;
                 }
                 if (y > 248 && y < 310){
-                    if (fenetre_menu == 0){
+                    if (fenetre_menu == 0){ // Credits
                         SDL_Surface *temp;
                         temp = SDL_LoadBMP("Sprites/credits_bg.bmp");
                         (*background) = SDL_DisplayFormat(temp);
@@ -200,7 +201,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                     break;
                 }
                 if (y > 326 && y < 388){
-                    if (fenetre_menu == 0){
+                    if (fenetre_menu == 0){ // Quitter
                         finjeu = 1;
                         gameover_menu = 1;
                         gameover = 1;
@@ -208,7 +209,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                     break;
                 }
                 if (y > 390 && y < 452){
-                    if (fenetre_menu == 1){
+                    if (fenetre_menu == 1){ // Retour
                         SDL_Surface *temp;
                         temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
                         (*background) = SDL_DisplayFormat(temp);

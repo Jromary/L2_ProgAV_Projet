@@ -1,5 +1,4 @@
 #include <SDL.h>
-
 #include "globals.h"
 #include "menu.h"
 #include "event.h"
@@ -26,13 +25,13 @@ void accueil(int argc, char *argv[])
 	while (!gameover_menu)
 	{
 	    SDL_GetMouseState(&mouse_x, &mouse_y);
-		eventact_menu(key, mouse_x, mouse_y, &background);
-        SDL_BlitSurface(background, NULL, screen, NULL);
+	    eventact_menu(key, mouse_x, mouse_y, &background);
+	    SDL_BlitSurface(background, NULL, screen, NULL);
 
 
-		SDL_UpdateRect(screen, 0, 0, 0, 0);
+	    SDL_UpdateRect(screen, 0, 0, 0, 0);
 	}
 	SDL_FreeSurface(background);
-
+	gameover_menu = 0;
 
 }

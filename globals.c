@@ -25,4 +25,4 @@ int gameover_menu = 0;
 
 int fenetre_menu = 0;
 
-int pieceSaisie = 0;
+int delai_piece;
