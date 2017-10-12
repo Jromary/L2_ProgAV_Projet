@@ -20,6 +20,8 @@ extern int nb_piece;
 extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
 
+extern int pieceSaisie;
+
 void update_events(char *keys, int x, int y, Carre **plateau)
 {
     int test = 0;
@@ -42,8 +44,10 @@ void update_events(char *keys, int x, int y, Carre **plateau)
                     if (tab_piece[i].actif == 1){
                         tab_piece[i].actif = 0;
                         deposer_piece(i, plateau, x, y);
+			pieceSaisie = 0;
                     }else if(test == 0){
                         tab_piece[i].actif = 1;
+			pieceSaisie = 1;
                         break;
                     }
                 }

@@ -20,6 +20,9 @@ extern int nb_max_input;
 extern int nb_max_input_raw;
 extern int finjeu;
 
+extern int pieceSaisie;
+
+
 
 int main(int argc, char *argv[]){
     srand(time(NULL));
@@ -44,6 +47,10 @@ int main(int argc, char *argv[]){
     mouse_x = 0;
     mouse_y = 0;
     int i, j, k;
+    
+        
+    int delai_piece = time(0);
+    int comp_delai_piece;
 
     // Creation de la fenetre / grille de jeu
     Carre** plateau = alloc_grille(PLATEAU_X, PLATEAU_Y);
@@ -72,7 +79,30 @@ int main(int argc, char *argv[]){
         // Background
         SDL_BlitSurface(background, NULL, screen, NULL);
 
-
+	
+	// Timer piece
+	if(pieceSaisie)
+	{
+	  comp_delai_piece = time(0);
+	  if (comp_delai_piece- delai_piece >= DELAI_MAX_PIECE)
+	  {
+	    for (int i = 0; i < nb_piece; i++)
+	    {
+	      if(tab_piece[i].actif)
+	      {
+		  tab_piece[i].actif = 0;
+		  break;
+	      }
+	    }
+	    delai_piece = time(0);
+	    pieceSaisie = 0;
+	  }	
+	}
+	else
+	{
+	  delai_piece = time(0);
+	}
+	
         // Grille de jeu
         for (i = 0; i < PLATEAU_X; i++){
             for (j = 0; j < PLATEAU_Y; j++){

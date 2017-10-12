@@ -14,4 +14,10 @@
 #define PLATEAU_X 10
 #define PLATEAU_Y 10
 
+/* timer */
+#define DELAI_MAX_PIECE 5
+
+
+
+
 #endif /* GLOBALES_H */
