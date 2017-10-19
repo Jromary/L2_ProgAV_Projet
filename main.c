@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
+
 #include "grille.h"
 #include "carre.h"
 #include "piece.h"
@@ -21,13 +22,15 @@ extern int nb_max_input_raw;
 extern int finjeu;
 
 extern int delai_piece;
+extern int score;
 
 int main(int argc, char *argv[]){
 	srand(time(NULL));
     /* Initialisation de SDL */
     SDL_Init(SDL_INIT_VIDEO);
-	while (!finjeu){
 
+
+	while (!finjeu){
 
 		SDL_WM_SetCaption("PentoTrice", "PentoTrice");
 		SDL_EnableKeyRepeat(10, 100);
@@ -52,11 +55,12 @@ int main(int argc, char *argv[]){
 
 		for (i = 0; i < PLATEAU_X; i++){
 			for (j = 0; j < PLATEAU_Y; j++){
-				const_Carre(&plateau[i][j], 999, 0);
+				const_Carre(&plateau[i][j], 0, 0);
 			}
 		}
 
 		load();
+
 		nb_piece = 0;
 		while (nb_piece < NB_PIECE_MAX){
 			tab_piece[nb_piece] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
@@ -66,6 +70,7 @@ int main(int argc, char *argv[]){
 
 		delai_piece = time(0);
 		int comp_delai_piece;
+		score = 0;
 
 		/******* Boucle de jeu ******/
 		while (!gameover){
@@ -145,7 +150,21 @@ int main(int argc, char *argv[]){
 		nb_max_input = 0;
 		nb_max_input_raw = 0;
 		gameover = 0;
-	}
+
+        // Enregistrement des scores
+		printf("Le score est : %d\n",score);
+		if (score != 0)
+		{
+			FILE *fichier = fopen("scores.txt", "a");
+			if (fichier != NULL)
+			{
+				fprintf(fichier, "%d\n", score);
+			}
+			fclose(fichier);
+		}
+
+
+	} // fin du while finjeu
 
 	SDL_Quit();
 	return 0;

@@ -13,5 +13,10 @@ extern void grille_LC(Carre **g, int larg, int haut);
 
 extern void eventact_menu(char *keys, int x, int y, SDL_Surface **background);
 
+extern void trie_score();
+
+extern void trie_score_aux(int *tab, int n);
+
+
 
 #endif /* EVENT_H */

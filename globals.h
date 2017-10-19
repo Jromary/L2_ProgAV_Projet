@@ -17,7 +17,4 @@
 /* timer */
 #define DELAI_MAX_PIECE 5
 
-
-
-
 #endif /* GLOBALES_H */

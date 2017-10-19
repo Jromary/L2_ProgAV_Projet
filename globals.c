@@ -8,7 +8,6 @@ Piece* tab_piece[NB_PIECE_MAX];
 
 int tab_piece_all_raw[MAX_INPUT_RAW];
 
-
 Piece tab_piece_all[MAX_INPUT];
 
 int gameover = 0;
@@ -26,3 +25,8 @@ int gameover_menu = 0;
 int fenetre_menu = 0;
 
 int delai_piece;
+
+int score;
+
+
+

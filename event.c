@@ -23,6 +23,7 @@ extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
 
 extern int delai_piece;
+extern int score;
 
 void update_events(char *keys, int x, int y, Carre **plateau)
 {
@@ -79,9 +80,6 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 }
 
 
-
-
-
 void deposer_piece(int id, Carre **g, int posx, int posy){
     int posable = 1;
     int x, y;
@@ -89,22 +87,27 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
 
-    /* test si la piece peut etre placer */
-    for (i = 0; i < tab_piece[id].dimx; i++){
-        for (j = 0; j < tab_piece[id].dimy; j++){
+    /* test si la piece peut etre placée */
+    for (i = 0; i < tab_piece[id].dimx; i++)
+    {
+        for (j = 0; j < tab_piece[id].dimy; j++)
+        {
 
-            if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
-                if (g[x+i-1][y+j-1].actif == 1 && tab_piece[id].grille[i][j].actif == 1){
+            if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
+            {
+                if (g[x+i-1][y+j-1].actif == 1 && tab_piece[id].grille[i][j].actif == 1) // Piece chevauche une piece deja dans la grille
+                {
                     posable = 0;
                 }
             }
-            else{
+            else
+            {
                 posable = 0;
             }
         }
     }
 
-    /*Si la piece peut etre placer*/
+    /*Si la piece peut etre placée */
     if (posable == 1){
         for (i = 0; i < tab_piece[id].dimx; i++){
             for (j = 0; j < tab_piece[id].dimy; j++){
@@ -116,7 +119,7 @@ void deposer_piece(int id, Carre **g, int posx, int posy){
             }
         }
         tab_piece[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
-	delai_piece = time(0);
+        delai_piece = time(0);
         grille_LC(g, PLATEAU_X, PLATEAU_Y);
     }
 
@@ -127,7 +130,9 @@ void grille_LC(Carre **g, int larg, int haut){
     int tab_a_changer[larg+haut];
     int i, j;
     int test = 1;
-    /*Only god know how it work*/
+    int score_temp = 0;
+
+    // Enregistrement des lignes colonnes à enlever
     for (i = 0; i < haut; i++){
         test = 1;
         for (j = 0; j < larg; j++){
@@ -146,20 +151,33 @@ void grille_LC(Carre **g, int larg, int haut){
         }
         tab_a_changer[haut+j] = test;
     }
+
+    // Debut du vidage de ligne et colonne
+    // On compte le score rapporte par la ligne / colonne
     for (i = 0; i < haut; i++){
         if (tab_a_changer[i] == 1){
             for (j = 0; j < larg; j++){
-                const_Carre(&g[j][i], 999, 0);
+                score_temp += ((g[j][i].couleur)*5);
+                //printf("Le Carre rapporte %d\n",(g[j][i].couleur)*5);
+                const_Carre(&g[j][i], 0, 0);
             }
         }
     }
+
     for (j = 0; j < larg; j++){
         if (tab_a_changer[haut+j] == 1){
             for (i = 0; i < haut; i++){
-                const_Carre(&g[j][i], 999, 0);
+                score_temp += ((g[j][i].couleur)*5);
+                //printf("Le Carre rapporte %d\n",(g[j][i].couleur)*5);
+                const_Carre(&g[j][i], 0, 0);
+
             }
         }
     }
+
+    // Appel au score global
+    score += (score_temp);
+
 }
 
 
@@ -186,6 +204,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                         temp = SDL_LoadBMP("Sprites/scores.bmp");
                         (*background) = SDL_DisplayFormat(temp);
                         SDL_FreeSurface(temp);
+                        trie_score();
                         fenetre_menu = 1;
                     }
                     break;
@@ -248,6 +267,53 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
 		}
 	}
 
+}
+
+
+void trie_score_aux(int *tab, int n)
+{
+	int i, min, j, tmp;
+	for (i = 0; i < n; i++)
+	{
+		min = i;
+		for (j = i + 1; j < n; j++)
+		{
+			if (tab[j] > tab[min])
+			{
+				min = j;
+			}
+		}
+		if (min != i)
+		{
+			tmp = tab[i];
+			tab[i] = tab[min];
+			tab[min] = tmp;
+		}
+	}
+}
+
+void trie_score()
+{
+	FILE *fichier = fopen("scores.txt", "r+");
+	int i, tmp;
+	int nb_ligne = 0;
+	while (fscanf(fichier, "%d", &tmp) != EOF)
+	{
+		nb_ligne++;
+	}
+	int score[nb_ligne];
+	rewind(fichier);
+	i = 0;
+	while (fscanf(fichier, "%d", &score[i++]) != EOF)
+		;
+	fclose(fichier);
+	fichier = fopen("scores.txt", "w");
+	trie_score_aux(score, nb_ligne);
+	for (i = 0; i < nb_ligne && i < 10; i++)
+	{
+		fprintf(fichier, "%d\n", score[i]);
+	}
+	fclose(fichier);
 }
 
 

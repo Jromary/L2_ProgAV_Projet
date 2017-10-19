@@ -22,12 +22,16 @@ void const_Carre(Carre *c, int couleur, int act){
     case 3:
         temp = SDL_LoadBMP("Sprites/hotdog.bmp");
         break;
-    case 0:
+    case 10:
         temp = SDL_LoadBMP("Sprites/Transparent.bmp");
+        break;
+    case 0:
+        temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
         break;
     default:
         temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
         break;
+
     }
 
     carreI = SDL_DisplayFormat(temp);

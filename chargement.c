@@ -16,7 +16,8 @@ void load(){
     while (fscanf(fichier, "%d", &tab_piece_all_raw[i++]) != EOF){
         nb_max_input_raw++;
     };
-    for(i = 0; i < nb_max_input_raw; i++){
+    for(i = 0; i < nb_max_input_raw; i++)
+    {
         printf("%d\n", tab_piece_all_raw[i]);
     }
 
@@ -52,7 +53,7 @@ void load(){
                 switch (nb){
                     case 1:
                         /*cas ou la case doit etre de l'air*/
-                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 0, 0);
+                        const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 10, 0);
                         break;
                     case 8:
                         /*cas ou la case est utilisé*/
