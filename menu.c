@@ -1,3 +1,8 @@
+/*********************************
+*
+*       GESTION DU MENU
+*
+**********************************/
 #include <SDL.h>
 #include "globals.h"
 #include "menu.h"
@@ -6,7 +11,7 @@
 extern SDL_Surface *screen;
 extern int gameover_menu;
 
-
+/* Boucle du menu */
 void accueil(int argc, char *argv[])
 {
 	SDL_WM_SetCaption("PentoTrice", "PentoTrice");

@@ -1,5 +1,12 @@
+/*********************************
+*
+*       VARIABLES GLOBALES
+*            en-tête
+**********************************/
+
 #ifndef GLOBALES_H
 #define GLOBALES_H
+#include "piece.h"
 
 /* Taille de la fenetre */
 #define screen_height 480
@@ -14,7 +21,11 @@
 #define PLATEAU_X 10
 #define PLATEAU_Y 10
 
-/* timer */
+/* Timer */
 #define DELAI_MAX_PIECE 5
+
+/* Allocation dynamique d'un tableau de piece de taille taille */
+extern Piece* creation_tab_piece(int taille);
+
 
 #endif /* GLOBALES_H */

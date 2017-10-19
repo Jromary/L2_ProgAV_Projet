@@ -1,3 +1,9 @@
+/*********************************
+*
+*      CHARGEMENT DES PIECES
+*
+**********************************/
+
 #include <SDL.h>
 
 #include "chargement.h"
@@ -10,10 +16,13 @@ extern int nb_max_input_raw;
 extern Piece tab_piece_all[MAX_INPUT];
 extern int nb_max_input;
 
-void load(){
+/* Charge les entrées stockées dans "input.txt" dans les tableaux de pièces */
+void load()
+{
     FILE *fichier = fopen("input.txt", "r+");
     int i = 0;
-    while (fscanf(fichier, "%d", &tab_piece_all_raw[i++]) != EOF){
+    while (fscanf(fichier, "%d", &tab_piece_all_raw[i++]) != EOF)
+    {
         nb_max_input_raw++;
     };
     for(i = 0; i < nb_max_input_raw; i++)
@@ -24,11 +33,13 @@ void load(){
     i = 0;
     int temp1, temp2, j, nb, larg, haut, deb;
 
-    while (i < nb_max_input_raw){
+    while (i < nb_max_input_raw)
+    {
             haut = 0;
             temp2 = i;
             deb = i;
-        while (tab_piece_all_raw[i] != 0){
+        while (tab_piece_all_raw[i] != 0)
+        {
             i++;
             temp2++;
             haut++;
@@ -36,7 +47,8 @@ void load(){
         i++;
         temp1 = tab_piece_all_raw[deb];
         larg = 0;
-        while (temp1 >= 1){
+        while (temp1 >= 1)
+        {
             temp1 = temp1 / 10;
             larg++;
         }
@@ -44,19 +56,22 @@ void load(){
 
         tab_piece_all[nb_max_input] = const_Piece(larg, haut, 0, 0);
         int alea = (rand() % 3) + 1;
-        for (j = 0; j < haut; j++){
+        for (j = 0; j < haut; j++)
+        {
             temp1 = tab_piece_all_raw[deb+j];
             int countcol = 0;
-            while (temp1 >= 1){
+            while (temp1 >= 1)
+            {
                 nb = temp1 % 10;
                 temp1 = temp1 / 10;
-                switch (nb){
+                switch (nb)
+                {
                     case 1:
-                        /*cas ou la case doit etre de l'air*/
+                        /* Cas ou la case doit etre de l'air*/
                         const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], 10, 0);
                         break;
                     case 8:
-                        /*cas ou la case est utilisé*/
+                        /* Cas ou la case est utilisé*/
                         const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], alea, 1);
                         break;
                     default:
@@ -66,10 +81,22 @@ void load(){
                 countcol++;
             }
         }
-
         nb_max_input++;
     }
     fclose(fichier);
+}
 
+/* Renvoie le nombre de motif dans le tableau de piece */
+int compteMotif(int* tab_motif)
+{
+    int cnt;
+    for(int k=0; k>nb_max_input_raw; k++)
+    {
+        if(tab_motif[k]) // Test si la ligne vaut 0, auquel cas on change de motif
+        {
+            cnt++;
+        }
+    }
+    return cnt;
 }
 

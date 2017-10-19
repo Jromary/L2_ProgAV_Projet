@@ -1,3 +1,9 @@
+/*********************************
+*
+*         STRUCTURE CARRE
+*             en-tête
+**********************************/
+
 #ifndef CARRE_H
 #define CARRE_H
 
@@ -11,9 +17,14 @@ struct Carre{
 };
 typedef struct Carre Carre;
 
-extern void free_Carre(Carre * c);
+/* Constructeur */
+extern void const_Carre(Carre *c, int couleur, int actif);
 
+/* Constructeur de copie */
 extern Carre copie_carre(Carre reff);
 
-extern void const_Carre(Carre *c, int couleur, int actif);
+/* Destructeur */
+extern void free_Carre(Carre * c);
+
+
 #endif /* CARRE_H */

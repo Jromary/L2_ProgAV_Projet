@@ -1,3 +1,9 @@
+/*********************************
+*
+*         STRUCTURE PIECES
+*
+**********************************/
+
 #include <SDL.h>
 
 #include "piece.h"
@@ -5,12 +11,13 @@
 #include "carre.h"
 #include "globals.h"
 
-extern Piece tab_piece[NB_PIECE_MAX];
+extern Piece* tab_piece;
 extern int nb_piece;
 
+/* Constructeur */
 Piece const_Piece(int taillex, int tailley, int x, int y)
 {
-	Piece *nouvelle_piece = malloc(sizeof(Piece));
+	Piece* nouvelle_piece = malloc(sizeof(Piece));
 	nouvelle_piece->pos.x = x;
 	nouvelle_piece->pos.y = y;
 	nouvelle_piece->bd.x = 32 * taillex + x;
@@ -21,19 +28,17 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
 	nouvelle_piece->dimy = tailley;
 
 	int alea = (rand() % 3) + 1;
-	for (int i = 0; i < taillex; i++){
-		for (int j = 0; j < tailley; j++){
+	for (int i = 0; i < taillex; i++)
+    {
+		for (int j = 0; j < tailley; j++)
+		{
 			const_Carre(&(nouvelle_piece->grille[i][j]), alea, 0);
 		}
 	}
 	return (*nouvelle_piece);
 }
 
-void free_piece(Piece *p){
-	free_grille((*p).grille, (*p).dimy, (*p).dimx);
-}
-
-
+/* Constructeur de copie */
 Piece copie_Piece(Piece piece_ref)
 {
 	Piece nouvellePiece = const_Piece(piece_ref.dimx, piece_ref.dimy, piece_ref.pos.x, piece_ref.pos.y);
@@ -48,3 +53,11 @@ Piece copie_Piece(Piece piece_ref)
 	}
 	return nouvellePiece;
 }
+
+/* Destructeur */
+void free_piece(Piece *p)
+{
+	free_grille((*p).grille, (*p).dimy, (*p).dimx);
+}
+
+

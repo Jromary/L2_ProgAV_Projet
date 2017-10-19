@@ -1,3 +1,9 @@
+/*********************************
+*
+*       GESTION DE LA GRILLE
+*
+**********************************/
+
 #include <SDL.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -5,6 +11,7 @@
 #include "carre.h"
 #include "grille.h"
 
+/* Allocation dynamique d'un tableau de Carre de dimension */
 Carre** alloc_grille(int taille_x, int taille_y)
 {
     int i;
@@ -15,8 +22,6 @@ Carre** alloc_grille(int taille_x, int taille_y)
 
     return tab;
 }
-
-
 
 /* Fonction qui désalloue la mémoire d'une grille de carré. */
 void free_grille(Carre** tab, int tailley, int taillex)

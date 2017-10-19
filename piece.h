@@ -1,3 +1,9 @@
+/*********************************
+*
+*         STRUCTURE PIECES
+*              en-tête
+**********************************/
+
 #ifndef PIECE_H
 #define PIECE_H
 
@@ -14,9 +20,14 @@ struct s_piece
 	Carre** grille;
 };
 typedef struct s_piece Piece;
+
+/* Constructeur */
+extern Piece const_Piece(int taillex, int tailley, int x, int y);
+
+/* Constructeur de copie */
 extern Piece copie_Piece(Piece piece_ref);
 
-extern Piece const_Piece(int taillex, int tailley, int x, int y);
+/* Destructeur */
 extern void free_piece(Piece *p);
 
 #endif /* PIECE_H */
