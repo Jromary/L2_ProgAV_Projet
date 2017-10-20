@@ -5,6 +5,8 @@
 **********************************/
 
 #include <SDL.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "chargement.h"
 #include "piece.h"
@@ -19,6 +21,34 @@ extern int nb_max_input;
 /* Charge les entrées stockées dans "input.txt" dans les tableaux de pièces */
 void load()
 {
+    /* Verification du fichier input */
+    FILE *fichier_verif = fopen("input.txt", "r+");
+    char temp;
+    int valide;
+    if (fichier_verif != NULL)
+    {
+        do
+        {
+
+            valide = 0;
+            temp = fgetc(fichier_verif);
+            for(int i = 0; i < 10; i++){
+                if (isdigit(temp) || !strcmp(&temp, "\n")){
+                    valide = 1;
+                };
+            }
+        }while (temp != EOF && valide);
+    }
+    fclose(fichier_verif);
+
+    if (!valide && temp != EOF){
+        printf("\n ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
+        printf("ERREUR:\n >>> Caractere non numerique\n");
+        exit(0);
+    }
+
+
+
     /* Compteur de lignes dans le fichier input */
     int nb_lignes = 0;
     int compteur_piece = 0;
@@ -94,8 +124,9 @@ void load()
                         const_Carre(&tab_piece_all[nb_max_input].grille[larg - countcol - 1][j], alea, 1);
                         break;
                     default:
-                        printf("ERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
-
+                        printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
+                        printf("ERREUR:\n >>> Caractere numerique non conforme\n");
+                        exit(0);
                 }
                 countcol++;
             }
