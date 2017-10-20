@@ -14,18 +14,17 @@
 
 /* Nombre de pieces propose */
 #define NB_PIECE_MAX 3
-#define MAX_INPUT 5000
-#define MAX_INPUT_RAW 10000
 
 /* Taille de la grille de jeu */
 #define PLATEAU_X 10
 #define PLATEAU_Y 10
 
 /* Timer */
-#define DELAI_MAX_PIECE 5
+#define DELAI_MAX_PIECE 10
 
-/* Allocation dynamique d'un tableau de piece de taille taille */
+/* Allocation dynamique d'un tableau de piece de taille 'taille' */
 extern Piece* creation_tab_piece(int taille);
-
+/* Allocation dynamique d'un tableau de int de taille 'taille' */
+extern int* creation_tab_int(int taille);
 
 #endif /* GLOBALES_H */

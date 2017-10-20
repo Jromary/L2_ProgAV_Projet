@@ -11,7 +11,6 @@
 #include "carre.h"
 #include "globals.h"
 
-extern Piece* tab_piece;
 extern int nb_piece;
 
 /* Constructeur */

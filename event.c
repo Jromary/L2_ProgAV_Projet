@@ -14,25 +14,23 @@
 #include "carre.h"
 #include "event.h"
 
-
-
 extern int gameover;
 extern int gameover_menu;
 extern int finjeu;
 
-
 extern int fenetre_menu;
 
-//extern Piece* tab_piece;
+extern Piece* tab_piece_dispo;
 extern int nb_piece;
-extern Piece tab_piece_all[MAX_INPUT];
+extern Piece* tab_piece_all;
 extern int nb_max_input;
 
 extern int delai_piece;
 extern int score;
 
+
 /* Fonction principale de gestion d'évenements */
-void update_events(char *keys, int x, int y, Carre **plateau, Piece* tab_piece)
+void update_events(char *keys, int x, int y, Carre **plateau)
 {
     int test = 0;
 	SDL_Event event;
@@ -48,25 +46,25 @@ void update_events(char *keys, int x, int y, Carre **plateau, Piece* tab_piece)
         case SDL_MOUSEBUTTONDOWN:
             for (int i = 0; i < nb_piece; i++)
             {
-                if(tab_piece[i].actif == 1){
+                if(tab_piece_dispo[i].actif == 1){
                     test=1;
                 }
             }
             for (int i = 0; i < nb_piece; i++)
             {
-                if ((x >= tab_piece[i].pos.x) &&
-                    (x <= tab_piece[i].bd.x) &&
-                    (y >= tab_piece[i].pos.y) &&
-                    (y <= tab_piece[i].bd.y))
+                if ((x >= tab_piece_dispo[i].pos.x) &&
+                    (x <= tab_piece_dispo[i].bd.x) &&
+                    (y >= tab_piece_dispo[i].pos.y) &&
+                    (y <= tab_piece_dispo[i].bd.y))
                 {
-                    if (tab_piece[i].actif == 1)
+                    if (tab_piece_dispo[i].actif == 1)
                     {
-                        tab_piece[i].actif = 0;
-                        deposer_piece(i, plateau, x, y,tab_piece);
+                        tab_piece_dispo[i].actif = 0;
+                        deposer_piece(i, plateau, x, y);
                     }
                     else if(test == 0)
                     {
-                        tab_piece[i].actif = 1;
+                        tab_piece_dispo[i].actif = 1;
                         break;
                     }
                 }
@@ -98,7 +96,7 @@ void update_events(char *keys, int x, int y, Carre **plateau, Piece* tab_piece)
 }
 
 /* Fonction de gestion du depot de piece sur la grille */
-void deposer_piece(int id, Carre **g, int posx, int posy,Piece* tab_piece ){
+void deposer_piece(int id, Carre **g, int posx, int posy ){
     int posable = 1;
     int x, y;
     int i, j;
@@ -106,14 +104,14 @@ void deposer_piece(int id, Carre **g, int posx, int posy,Piece* tab_piece ){
     y = (int)(floor(posy/32));
 
     /* Test si la piece peut etre placée */
-    for (i = 0; i < tab_piece[id].dimx; i++)
+    for (i = 0; i < tab_piece_dispo[id].dimx; i++)
     {
-        for (j = 0; j < tab_piece[id].dimy; j++)
+        for (j = 0; j < tab_piece_dispo[id].dimy; j++)
         {
 
             if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
             {
-                if (g[x+i-1][y+j-1].actif == 1 && tab_piece[id].grille[i][j].actif == 1) // Piece chevauchant une piece déjà dans la grille
+                if (g[x+i-1][y+j-1].actif == 1 && tab_piece_dispo[id].grille[i][j].actif == 1) // Piece chevauchant une piece déjà dans la grille
                 {
                     posable = 0;
                 }
@@ -128,20 +126,20 @@ void deposer_piece(int id, Carre **g, int posx, int posy,Piece* tab_piece ){
 
     if (posable == 1) // La pièce peut être placée
     {
-        for (i = 0; i < tab_piece[id].dimx; i++)
+        for (i = 0; i < tab_piece_dispo[id].dimx; i++)
         {
-            for (j = 0; j < tab_piece[id].dimy; j++)
+            for (j = 0; j < tab_piece_dispo[id].dimy; j++)
             {
                 if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
                 {
-                    if (tab_piece[id].grille[i][j].actif != 0)
+                    if (tab_piece_dispo[id].grille[i][j].actif != 0)
                     {
-                        g[x+i-1][y+j-1] = copie_carre(tab_piece[id].grille[i][j]); // On écrit la pièce dans la grille
+                        g[x+i-1][y+j-1] = copie_carre(tab_piece_dispo[id].grille[i][j]); // On écrit la pièce dans la grille
                     }
                 }
             }
         }
-        tab_piece[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+        tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
         delai_piece = time(0);
         /* Lancement de la verification des lignes / colonnes */
         grille_LC(g, PLATEAU_X, PLATEAU_Y);

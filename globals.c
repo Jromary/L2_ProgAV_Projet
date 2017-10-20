@@ -10,11 +10,9 @@
 
 SDL_Surface *screen;
 
-//Piece tab_piece[NB_PIECE_MAX];
+Piece* tab_piece_dispo;
 
-int tab_piece_all_raw[MAX_INPUT_RAW];
-
-Piece tab_piece_all[MAX_INPUT];
+Piece* tab_piece_all;
 
 int gameover = 0;
 
@@ -34,7 +32,7 @@ int delai_piece;
 
 int score;
 
-/* Allocation dynamique d'un tableau de piece de taille taille */
+/* Allocation dynamique d'un tableau de piece de taille 'taille' */
 Piece* creation_tab_piece(int taille)
 {
     Piece* memoire = NULL;
@@ -46,9 +44,16 @@ Piece* creation_tab_piece(int taille)
     return memoire;
 }
 
+int* creation_tab_int(int taille)
+{
+    int* memoire = NULL;
+    memoire = malloc(sizeof(int)*taille);
+    if (memoire == NULL)
+    {
+        exit(0);
+    }
+    return memoire;
+}
 
-// Creation du tableau de piece
-
-//Piece* tab_piece = creation_tab_piece(NB_PIECE_MAX);
 
 

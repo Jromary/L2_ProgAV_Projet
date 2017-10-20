@@ -11,10 +11,10 @@
 #include "carre.h"
 
 /* Fonction principale de gestion d'évenements */
-extern void update_events(char *keys, int x, int y, Carre **plateau,Piece* tab_piece);
+extern void update_events(char *keys, int x, int y, Carre **plateau);
 
 /* Fonction de gestion du depot de piece sur la grille */
-extern void deposer_piece(int id, Carre **g, int posx, int posy,Piece* tab_piece);
+extern void deposer_piece(int id, Carre **g, int posx, int posy);
 
 /* Gestion des lignes entières et des colonnes entières */
 extern void grille_LC(Carre **g, int larg, int haut);

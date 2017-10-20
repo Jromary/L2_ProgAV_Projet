@@ -26,7 +26,6 @@ Carre** alloc_grille(int taille_x, int taille_y)
 /* Fonction qui désalloue la mémoire d'une grille de carré. */
 void free_grille(Carre** tab, int tailley, int taillex)
 {
-
 	for(int i = 0; i< taillex; i++)
 	{
 	    for (int j = 0; j < tailley; j++){
@@ -36,5 +35,4 @@ void free_grille(Carre** tab, int tailley, int taillex)
 	}
 	free(tab);
 	tab = NULL;
-
 }

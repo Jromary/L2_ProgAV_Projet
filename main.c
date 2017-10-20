@@ -24,9 +24,9 @@
 /* Import des variables globales */
 extern SDL_Surface *screen;
 
-//extern Piece* tab_piece;
 extern int nb_piece;
-extern Piece tab_piece_all[MAX_INPUT];
+extern Piece* tab_piece_all;
+extern Piece* tab_piece_dispo;
 extern int nb_max_input;
 extern int nb_max_input_raw;
 
@@ -59,6 +59,23 @@ int main(int argc, char *argv[]){
 		mouse_y = 0;
 		int i, j, k;
 
+        /* Lancement de la boucle de menu */
+		accueil(argc, argv);
+        /* Fin de la boucle menu, suite du programme */
+        if(!gameover)
+        {
+            /* Chargement des pièces du fichier d'entrées */
+            load();
+            // Creation du tableau de piece disponible et du tableau de pieces global
+            tab_piece_dispo = creation_tab_piece(NB_PIECE_MAX);
+
+            nb_piece = 0;
+            while (nb_piece < NB_PIECE_MAX)
+            {
+                tab_piece_dispo[nb_piece] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+                nb_piece++;
+            }
+        }
 
 		/* Creation de la grille de jeu */
 		Carre** plateau = alloc_grille(PLATEAU_X, PLATEAU_Y);
@@ -70,31 +87,10 @@ int main(int argc, char *argv[]){
 			}
 		}
 
-
-        /* Chargement des pièces du fichier d'entrées */
-		load();
-
-        // Creation du tableau de piece
-        Piece* tab_piece = creation_tab_piece(NB_PIECE_MAX);
-
-		nb_piece = 0;
-		while (nb_piece < NB_PIECE_MAX){
-			tab_piece[nb_piece] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
-			nb_piece++;
-		}
-
-		/* Lancement de la boucle de menu */
-		accueil(argc, argv);
-        /* Fin de la boucle menu, suite du programme */
-
-
         /* Initialisation des variables necessaires au jeu */
 		delai_piece = time(0);
 		int comp_delai_piece;
 		score = 0;
-
-
-
 
 		/* Boucle de jeu */
 		while (!gameover)
@@ -102,7 +98,7 @@ int main(int argc, char *argv[]){
 
             /* Recuperation des évenements */
 			SDL_GetMouseState(&mouse_x, &mouse_y);
-			update_events(key, mouse_x, mouse_y, plateau,tab_piece);
+			update_events(key, mouse_x, mouse_y, plateau);
 
 			/* Timer des pieces, pouvant entrainer le gameover */
 			comp_delai_piece = time(0);
@@ -132,38 +128,36 @@ int main(int argc, char *argv[]){
             /* Pieces disponibles */
 			for (k = 0; k < nb_piece; k++)
             {
-				tab_piece[k].pos.x = 500;
-				tab_piece[k].pos.y = k * screen_height/nb_piece; // Adaptation en hauteur en fonction du nombre de pieces disponibles
-				tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
-				tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
-				for (i = 0; i < tab_piece[k].dimx; i++)
+				tab_piece_dispo[k].pos.x = 500;
+				tab_piece_dispo[k].pos.y = k * screen_height/nb_piece; // Adaptation en hauteur en fonction du nombre de pieces disponibles
+				tab_piece_dispo[k].bd.x = tab_piece_dispo[k].pos.x+32*tab_piece_dispo[k].dimx;
+				tab_piece_dispo[k].bd.y = tab_piece_dispo[k].pos.y+32*tab_piece_dispo[k].dimy;
+				for (i = 0; i < tab_piece_dispo[k].dimx; i++)
 				{
-					for (j = 0; j < tab_piece[k].dimy; j++)
+					for (j = 0; j < tab_piece_dispo[k].dimy; j++)
 					{
-						SDL_SetColorKey(tab_piece[k].grille[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, tab_piece[k].grille[i][j].colorkey);
+						SDL_SetColorKey(tab_piece_dispo[k].grille[i][j].image, SDL_SRCCOLORKEY | SDL_RLEACCEL, tab_piece_dispo[k].grille[i][j].colorkey);
 						SDL_Rect PI;
-						if (tab_piece[k].actif == 1) // Si la piece doit suivre la souris...
+						if (tab_piece_dispo[k].actif == 1) // Si la piece doit suivre la souris...
 						{
-							PI.x = i*32+mouse_x;
-							PI.y = j*32+mouse_y;
+							PI.x = i*32+mouse_x-16;
+							PI.y = j*32+mouse_y-16;
 							if (i==0 && j==0)
 							{
-								tab_piece[k].pos=PI;
-								tab_piece[k].bd.x = tab_piece[k].pos.x+32*tab_piece[k].dimx;
-								tab_piece[k].bd.y = tab_piece[k].pos.y+32*tab_piece[k].dimy;
+								tab_piece_dispo[k].pos=PI;
+								tab_piece_dispo[k].bd.x = tab_piece_dispo[k].pos.x+32*tab_piece_dispo[k].dimx;
+								tab_piece_dispo[k].bd.y = tab_piece_dispo[k].pos.y+32*tab_piece_dispo[k].dimy;
 							}
 						}
                         else
                         {
-							PI.x = i*32+tab_piece[k].pos.x;
-							PI.y = j*32+tab_piece[k].pos.y;
+							PI.x = i*32+tab_piece_dispo[k].pos.x;
+							PI.y = j*32+tab_piece_dispo[k].pos.y;
 						}
-						SDL_BlitSurface((tab_piece[k].grille[i][j].image), NULL, screen, &PI);
+						SDL_BlitSurface((tab_piece_dispo[k].grille[i][j].image), NULL, screen, &PI);
 					}
 				}
 			}
-
-
 			SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 		} // Fin while gamover
@@ -171,17 +165,16 @@ int main(int argc, char *argv[]){
 
 		/* Desallocation */
 		SDL_FreeSurface(background);
-		/*** Desaloc a gerer ***/
 		free_grille(plateau, 10, 10);
-
 		for (i = 0; i < nb_piece; i++)
         {
-			free_piece(&tab_piece[i]);
+			free_piece(&tab_piece_dispo[i]);
 		}
 		for (i = 0; i < nb_max_input; i++)
 		{
 			free_piece(&tab_piece_all[i]);
 		}
+
 		/* Remise à zéro des variables de jeu */
 		nb_piece = 0;
 		nb_max_input = 0;
