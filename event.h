@@ -28,4 +28,10 @@ extern void trie_score();
 /* Tri des scores stockés dans scores.txt */
 extern void trie_score_aux(int *tab, int n);
 
+/* Affiche les scores */
+extern void printscore();
+
+/* affiche un nombre */
+extern void affiche_nombre(int x, int y, int nb);
+
 #endif /* EVENT_H */

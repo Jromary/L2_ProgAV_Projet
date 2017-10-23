@@ -161,7 +161,16 @@ int main(int argc, char *argv[]){
 			SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 		} // Fin while gamover
-
+        if (gameover && !finjeu)
+        {
+            SDL_Surface *background, *temp;
+            temp = SDL_LoadBMP("Sprites/bg.bmp");
+            background = SDL_DisplayFormat(temp);
+            SDL_BlitSurface(background, NULL, screen, NULL);
+            affiche_nombre(screen_length/2, screen_height/2, score);
+            SDL_UpdateRect(screen, 0, 0, 0, 0);
+            sleep(2);
+        }
 
 		/* Desallocation */
 		SDL_FreeSurface(background);
@@ -182,7 +191,8 @@ int main(int argc, char *argv[]){
 		gameover = 0;
 
         /* Enregistrement des scores */
-		printf("Le score est : %d\n",score);
+
+
 		if (score != 0)
 		{
 			FILE *fichier = fopen("scores.txt", "a");

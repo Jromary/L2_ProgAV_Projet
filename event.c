@@ -28,6 +28,10 @@ extern int nb_max_input;
 extern int delai_piece;
 extern int score;
 
+extern int affichescore;
+
+extern SDL_Surface *screen;
+
 
 /* Fonction principale de gestion d'évenements */
 void update_events(char *keys, int x, int y, Carre **plateau)
@@ -255,6 +259,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                         SDL_FreeSurface(temp);
                         trie_score();
                         fenetre_menu = 1;
+                        affichescore = 1;
                     }
                     break;
                 }
@@ -289,6 +294,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                         (*background) = SDL_DisplayFormat(temp);
                         SDL_FreeSurface(temp);
                         fenetre_menu = 0;
+                        affichescore = 0;
                     }
                     break;
                 }
@@ -362,17 +368,72 @@ void trie_score()
 	fclose(fichier);
 	fichier = fopen("scores.txt", "w");
 	trie_score_aux(score, nb_ligne);
-	for (i = 0; i < nb_ligne && i < 10; i++)
+	for (i = 0; i < nb_ligne && i < 5; i++)
 	{
 		fprintf(fichier, "%d\n", score[i]);
 	}
 	fclose(fichier);
 }
 
+void printscore()
+{
+	FILE *fichier = fopen("scores.txt", "r");
+	int nb_ligne = 0;
+	int i, tmp;
+	while (fscanf(fichier, "%d", &tmp) != EOF)
+	{
+		nb_ligne++;
+	}
+	int score[nb_ligne];
+	rewind(fichier);
+	while (fscanf(fichier, "%d", &score[i++]) != EOF)
+		;
+	for (i = 0; i < nb_ligne; i++)
+	{
+		affiche_nombre((screen_length / 2) - 64, i * (screen_height / (nb_ligne + 5)), score[i]);
+	}
+	fclose(fichier);
+}
 
 
+void affiche_nombre(int x, int y, int nb)
+{
+	SDL_Surface *temp, *nombre;
+	temp = SDL_LoadBMP("Sprites/nombre_v2.bmp");
+	nombre = SDL_DisplayFormat(temp);
+	SDL_FreeSurface(temp);
 
+	int colorkey_nb = SDL_MapRGB(screen->format, 255, 0, 255);
+	SDL_SetColorKey(nombre, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey_nb);
 
+	SDL_Rect pi;
+	pi.x = x;
+	pi.y = y;
+	int nb_chifre = 0;
+	int nb_aux = nb;
+	while (nb_aux > 9)
+	{
+		nb_aux = nb_aux / 10;
+		nb_chifre++;
+	}
+
+	int nb_split[nb_chifre];
+	for (int i = 0; i <= nb_chifre; i++)
+	{
+		nb_split[i] = nb % 10;
+		nb = nb / 10;
+	}
+	SDL_Rect nombreImage;
+	for (int i = 0; i <= nb_chifre; i++)
+	{
+		nombreImage.x = nb_split[nb_chifre - i] * 32;
+		nombreImage.y = 0;
+		nombreImage.w = 32;
+		nombreImage.h = 34;
+		SDL_BlitSurface(nombre, &nombreImage, screen, &pi);
+		pi.x += 32;
+	}
+}
 
 
 

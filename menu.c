@@ -10,6 +10,8 @@
 
 extern SDL_Surface *screen;
 extern int gameover_menu;
+extern int affichescore;
+
 
 /* Boucle du menu */
 void accueil(int argc, char *argv[])
@@ -32,7 +34,9 @@ void accueil(int argc, char *argv[])
 		SDL_GetMouseState(&mouse_x, &mouse_y);
 		eventact_menu(key, mouse_x, mouse_y, &background);
 		SDL_BlitSurface(background, NULL, screen, NULL);
-
+        if (affichescore){
+            printscore();
+        }
 
 	    SDL_UpdateRect(screen, 0, 0, 0, 0);
 	}

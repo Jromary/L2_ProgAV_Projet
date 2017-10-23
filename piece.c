@@ -65,18 +65,21 @@ void rota_piece(Piece *p)
 	Carre **nouvelle_grille;
 	nouvelle_grille = alloc_grille((*p).dimy, (*p).dimx);
 	int i, j;
+	int tmp;
 	for (i = 0; i < (*p).dimx; i++)
 	{
 		for (j = 0; j < (*p).dimy; j++)
 		{
-			const_Carre(&nouvelle_grille[j][i], (*p).grille[i][j].couleur, (*p).grille[i][j].actif);
+			const_Carre(&nouvelle_grille[(*p).dimy-j-1][i], (*p).grille[i][j].couleur, (*p).grille[i][j].actif);
 		}
 	}
 
 	/* libere l'enciene grille et changer la rotation et regarder les potentieles erreures */
 
-	//free_grille((*p).grille, (*p).dimy, (*p).dimx);
-
+	free_grille((*p).grille, (*p).dimy, (*p).dimx);
+    tmp = (*p).dimx;
+    (*p).dimx = (*p).dimy;
+    (*p).dimy = tmp;
 	(*p).grille = nouvelle_grille;
 
 }
