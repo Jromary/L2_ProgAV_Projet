@@ -26,19 +26,9 @@ char temp; // Utilisé dans compteur_ligne_input() - verification_input()
 /* Charge les entrées stockées dans "input.txt" dans les tableaux de pièces et fais des verifications adéquates */
 void load()
 {
-    /* Test de validité : Fichier vide */
-    compteur_ligne_input();
-    if(nb_lignes == 0)
-    {
-         printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
-         printf("ERREUR:\n >>> Fichier vide\n");
-         exit(0);
-    }
-
-    /* Test de validité : Pieces rectangulaires */
+    /* Test de validité : Pieces rectangulaires et pas de caractères non conformes */
     FILE *fichier_verif = fopen("input.txt", "r+");
-    int colonne, pieceActive, colonne_piece, estUnZero, COL;
-
+    int colonne, NaN ,pieceActive, colonne_piece, estUnZero, COL; // Flags d'erreurs
     if (fichier_verif != NULL)
     {
         colonne = 0;
@@ -46,11 +36,23 @@ void load()
         pieceActive = 0;
         estUnZero = 0;
         COL = 0;
+        NaN = 0;
 
         do // Parcours du fichier char par char
         {
             temp = fgetc(fichier_verif);
 
+            if (!isdigit(temp))
+            {
+                if(strcmp(&temp, "\n")) // Test si le caractère lu est un nombre
+                {
+                    if(temp != EOF)
+                    {
+                        NaN = 1;
+                    }
+                }
+            }
+            /* Test des colonnes identiques en taille */
             if(!strcmp(&temp,"0"))
             {
                 pieceActive = 0;
@@ -82,10 +84,23 @@ void load()
         SDL_Quit();
         exit(0);
     }
+    if(NaN)
+    {
+        printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
+        printf("ERREUR:\n >>>Caractère non conforme\n");
+        SDL_Quit();
+        exit(0);
+    }
 
-    fclose(fichier_verif);
-
-
+    /* Test de validité : Fichier vide */
+    compteur_ligne_input();
+    if(nb_lignes == 0)
+    {
+         printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
+         printf("ERREUR:\n >>> Fichier vide\n");
+         SDL_Quit();
+         exit(0);
+    }
 
     FILE *fichier = fopen("input.txt", "r+");
     int* tab_raw_input = creation_tab_int(nb_lignes);
@@ -279,58 +294,3 @@ void compteur_ligne_input()
          exit(0);
     }
 }
-
-/* Verification du fichier input */
-/*
-void verification_input()
-{
-    FILE *fichier_verif = fopen("input.txt", "r+");
-    int colonne, pieceActive, colonne_piece, estUnZero, COL;
-
-    if (fichier_verif != NULL)
-    {
-        colonne = 0;
-        colonne_piece = 0;
-        pieceActive = 0;
-        estUnZero = 0;
-        COL = 0;
-
-        do // Parcours du fichier char par char
-        {
-            temp = fgetc(fichier_verif);
-
-            if(!strcmp(&temp,"0"))
-            {
-                pieceActive = 0;
-                estUnZero = 1;
-            }
-            if(!strcmp(&temp,"\n"))
-            {
-                if(!pieceActive && !estUnZero) // Prend la reference de la piece
-                {
-                    colonne_piece = colonne; // nombre de colonne pour cette piece
-                    pieceActive = 1;
-                }
-                if(pieceActive && (colonne != colonne_piece)) // La piece n'a pas le même nombre de colonne sur chaque lignes
-                {
-                    COL = 1;
-                }
-                colonne = 0;
-                estUnZero = 0;
-            }
-            else{colonne++;}
-        }
-        while (temp != EOF );
-    }
-
-    if(COL)
-    {
-        printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
-        printf("ERREUR:\n >>> Une pièce n'a pas le même nombre de colonne sur chaque ligne\n");
-    }
-
-    fclose(fichier_verif);
-
-}
-*/
-
