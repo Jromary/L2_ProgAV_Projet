@@ -14,6 +14,7 @@
 
 /* Nombre de pieces propose */
 #define NB_PIECE_MAX 3
+#define LARGEUR_PIECE_MAX 3
 
 /* Taille de la grille de jeu */
 #define PLATEAU_X 10

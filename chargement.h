@@ -13,5 +13,8 @@ extern void load();
 /* Renvoie le nombre de motif dans le tableau de piece */
 extern int compteMotif(int* tab_motif);
 
+extern void compteur_ligne_input();
+extern void verification_input();
+
 
 #endif /* CHARGEMENT_H */
