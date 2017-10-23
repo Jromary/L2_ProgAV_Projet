@@ -46,7 +46,8 @@ void update_events(char *keys, int x, int y, Carre **plateau)
         case SDL_MOUSEBUTTONDOWN:
             for (int i = 0; i < nb_piece; i++)
             {
-                if(tab_piece_dispo[i].actif == 1){
+                if(tab_piece_dispo[i].actif == 1)
+                {
                     test=1;
                 }
             }
@@ -84,6 +85,16 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 			    finjeu = 1;
 				gameover = 1;
 				break;
+            case SDLK_SPACE:
+                for (int i = 0; i < nb_piece; i++)
+                {
+                    if(tab_piece_dispo[i].actif == 1)
+                    {
+                        rota_piece(&tab_piece_dispo[i]);
+                        break;
+                    }
+                }
+                break;
 			default:
 				break;
 			}

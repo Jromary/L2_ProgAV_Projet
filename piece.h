@@ -30,4 +30,7 @@ extern Piece copie_Piece(Piece piece_ref);
 /* Destructeur */
 extern void free_piece(Piece *p);
 
+/* Rtation d'une piece */
+extern void rota_piece(Piece *p);
+
 #endif /* PIECE_H */
