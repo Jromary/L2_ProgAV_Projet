@@ -110,20 +110,18 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 	}
 }
 
-/* Fonction de gestion du depot de piece sur la grille */
-void deposer_piece(int id, Carre **g, int posx, int posy ){
+/* Fonction testant si un piece est posable a une position donner */
+int piece_posable(int id, Carre **g, int posx, int posy ){
     int posable = 1;
     int x, y;
     int i, j;
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
 
-    /* Test si la piece peut etre placée */
     for (i = 0; i < tab_piece_dispo[id].dimx; i++)
     {
         for (j = 0; j < tab_piece_dispo[id].dimy; j++)
         {
-
             if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
             {
                 if (g[x+i-1][y+j-1].actif == 1 && tab_piece_dispo[id].grille[i][j].actif == 1) // Piece chevauchant une piece déjà dans la grille
@@ -137,7 +135,19 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
             }
         }
     }
+    return posable;
+}
 
+/* Fonction de gestion du depot de piece sur la grille */
+void deposer_piece(int id, Carre **g, int posx, int posy ){
+    int posable;
+    int x, y;
+    int i, j, k, l;
+    x = (int)(floor(posx/32));
+    y = (int)(floor(posy/32));
+
+    /* Test si la piece peut etre placée */
+    posable = piece_posable(id, g, posx, posy);
 
     if (posable == 1) // La pièce peut être placée
     {
@@ -158,6 +168,29 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
         delai_piece = time(0);
         /* Lancement de la verification des lignes / colonnes */
         grille_LC(g, PLATEAU_X, PLATEAU_Y);
+        /* test si on peut encore jouer apres avoir poser la piece a revoire*/
+        posable = 0;
+        x = 0;
+        y = 0;
+        k = 0;
+        l = 0;
+        while (x < PLATEAU_X && !posable){
+            while (y < PLATEAU_Y && !posable){
+                while (k < NB_PIECE_MAX && !posable){
+                    while (l < 4 && !posable){
+                        posable = posable || piece_posable(k, g, x*32, y*32);
+                        rota_piece(&tab_piece_dispo[k]);
+                        l++;
+                    }
+                    k++;
+                }
+                y++;
+            }
+            x++;
+        }
+        if(posable){
+            gameover = 1;
+        }
     }
 }
 

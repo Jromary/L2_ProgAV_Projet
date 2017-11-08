@@ -47,9 +47,13 @@ int main(int argc, char *argv[]){
 		SDL_WM_SetCaption("PentoTrice", "PentoTrice");
 		SDL_EnableKeyRepeat(10, 100);
 		screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
-		SDL_Surface *background, *temp;
+		SDL_Surface *background, *temp, *timer;
 		temp = SDL_LoadBMP("Sprites/bg.bmp");
 		background = SDL_DisplayFormat(temp);
+		SDL_FreeSurface(temp);
+
+		temp = SDL_LoadBMP("Sprites/timer.bmp");
+		timer = SDL_DisplayFormat(temp);
 		SDL_FreeSurface(temp);
 
 		char key[SDLK_LAST] = {0};
@@ -102,7 +106,7 @@ int main(int argc, char *argv[]){
 
 			/* Timer des pieces, pouvant entrainer le gameover */
 			comp_delai_piece = time(0);
-			if (comp_delai_piece- delai_piece >= DELAI_MAX_PIECE)
+			if (comp_delai_piece - delai_piece >= DELAI_MAX_PIECE)
 			{
 				gameover = 1;
 			}
@@ -112,6 +116,19 @@ int main(int argc, char *argv[]){
 			/* Background */
 			SDL_BlitSurface(background, NULL, screen, NULL);
 
+			/* timer */
+            {
+                SDL_Rect timerpos;
+                timerpos.y = screen_height - 20;
+                timerpos.x = 0;
+
+                SDL_Rect timerimage;
+                timerimage.x = 0;
+                timerimage.y = 0;
+                timerimage.w = (1 - (float)(comp_delai_piece - delai_piece)/(float)DELAI_MAX_PIECE) * screen_length;
+                timerimage.h = 20;
+                SDL_BlitSurface(timer, &timerimage, screen, &timerpos);
+            }
             /* Grille de jeu */
 			for (i = 0; i < PLATEAU_X; i++)
             {
@@ -174,6 +191,7 @@ int main(int argc, char *argv[]){
 
 		/* Desallocation */
 		SDL_FreeSurface(background);
+		SDL_FreeSurface(timer);
 		free_grille(plateau, 10, 10);
 		for (i = 0; i < nb_piece; i++)
         {

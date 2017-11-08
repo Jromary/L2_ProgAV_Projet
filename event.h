@@ -13,6 +13,9 @@
 /* Fonction principale de gestion d'évenements */
 extern void update_events(char *keys, int x, int y, Carre **plateau);
 
+/* Fonction testant si un piece est posable a une position donner */
+extern int piece_posable(int id, Carre **g, int posx, int posy );
+
 /* Fonction de gestion du depot de piece sur la grille */
 extern void deposer_piece(int id, Carre **g, int posx, int posy);
 
