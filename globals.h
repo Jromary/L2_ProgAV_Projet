@@ -21,7 +21,7 @@
 #define PLATEAU_Y 10
 
 /* Timer */
-#define DELAI_MAX_PIECE 10
+#define DELAI_MAX_PIECE 10.0
 
 /* Allocation dynamique d'un tableau de piece de taille 'taille' */
 extern Piece* creation_tab_piece(int taille);

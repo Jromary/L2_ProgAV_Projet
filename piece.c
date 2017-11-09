@@ -74,8 +74,6 @@ void rota_piece(Piece *p)
 		}
 	}
 
-	/* libere l'enciene grille et changer la rotation et regarder les potentieles erreures */
-
 	free_grille((*p).grille, (*p).dimy, (*p).dimx);
     tmp = (*p).dimx;
     (*p).dimx = (*p).dimy;

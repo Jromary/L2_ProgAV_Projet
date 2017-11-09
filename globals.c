@@ -34,6 +34,8 @@ int score;
 
 int affichescore = 0;
 
+int pressagain = 0;
+
 /* Allocation dynamique d'un tableau de piece de taille 'taille' */
 Piece* creation_tab_piece(int taille)
 {

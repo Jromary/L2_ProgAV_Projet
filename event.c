@@ -30,6 +30,8 @@ extern int score;
 
 extern int affichescore;
 
+extern int pressagain;
+
 extern SDL_Surface *screen;
 
 
@@ -81,6 +83,16 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 			break;
 		case SDL_KEYUP:
 			keys[event.key.keysym.sym] = 0;
+			switch (event.key.keysym.sym)
+			{
+			    case SDLK_SPACE:
+			        if (pressagain){
+                        pressagain = 0;
+			        }
+			        break;
+                default:
+                    break;
+			}
 			break;
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
@@ -90,13 +102,16 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 				gameover = 1;
 				break;
             case SDLK_SPACE:
-                for (int i = 0; i < nb_piece; i++)
-                {
-                    if(tab_piece_dispo[i].actif == 1)
+                if (!pressagain){
+                    for (int i = 0; i < nb_piece; i++)
                     {
-                        rota_piece(&tab_piece_dispo[i]);
-                        break;
+                        if(tab_piece_dispo[i].actif == 1)
+                        {
+                            rota_piece(&tab_piece_dispo[i]);
+                            break;
+                        }
                     }
+                    pressagain = 1;
                 }
                 break;
 			default:
@@ -117,10 +132,12 @@ int piece_posable(int id, Carre **g, int posx, int posy ){
     int i, j;
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
+    i = 0;
+    j = 0;
 
-    for (i = 0; i < tab_piece_dispo[id].dimx; i++)
+    while (i < tab_piece_dispo[id].dimx && posable)
     {
-        for (j = 0; j < tab_piece_dispo[id].dimy; j++)
+        while (j < tab_piece_dispo[id].dimy && posable)
         {
             if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
             {
@@ -133,7 +150,10 @@ int piece_posable(int id, Carre **g, int posx, int posy ){
             {
                 posable = 0;
             }
+            j++;
         }
+        j = 0;
+        i++;
     }
     return posable;
 }
@@ -174,21 +194,25 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
         y = 0;
         k = 0;
         l = 0;
-        while (x < PLATEAU_X && !posable){
-            while (y < PLATEAU_Y && !posable){
-                while (k < NB_PIECE_MAX && !posable){
-                    while (l < 4 && !posable){
-                        posable = posable || piece_posable(k, g, x*32, y*32);
-                        rota_piece(&tab_piece_dispo[k]);
-                        l++;
-                    }
+        while (l < 4){
+            while (x < PLATEAU_X && !posable){
+                while (y < PLATEAU_Y && !posable){
+                    while (k < NB_PIECE_MAX && !posable){
+                        if (piece_posable(k, g, 32 + x*32, 32 + y*32)){
+                            posable = 1;
+                        }
                     k++;
-                }
+                    }
+                k = 0;
                 y++;
-            }
+                }
+            y = 0;
             x++;
+            }
+            rota_piece(&tab_piece_dispo[k]);
+            l++;
         }
-        if(posable){
+        if(!posable){
             gameover = 1;
         }
     }
@@ -305,6 +329,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                         (*background) = SDL_DisplayFormat(temp);
                         SDL_FreeSurface(temp);
                         fenetre_menu = 1;
+                        system("xdg-open https://github.com/Jromary/L2_ProgAV_Projet");
                     }
                     break;
                 }

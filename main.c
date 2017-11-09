@@ -118,6 +118,7 @@ int main(int argc, char *argv[]){
 
 			/* timer */
             {
+                printf("%d  | %d\n", comp_delai_piece, delai_piece);
                 SDL_Rect timerpos;
                 timerpos.y = screen_height - 20;
                 timerpos.x = 0;
