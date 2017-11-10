@@ -9,7 +9,7 @@
 #include "carre.h"
 #include "globals.h"
 
-extern SDL_Surface *screen;
+extern SDL_Surface *screen, *image_frites, *image_hotdog, *image_cannette, *image_vide, *image_grille;
 
 
 
@@ -21,27 +21,27 @@ void const_Carre(Carre *c, int couleur, int act){
     switch (couleur)
     {
         case 1:
-            temp = SDL_LoadBMP("Sprites/frites.bmp");
+            temp = image_frites;
             break;
         case 2:
-            temp = SDL_LoadBMP("Sprites/canette.bmp");
+            temp = image_cannette;
             break;
         case 3:
-            temp = SDL_LoadBMP("Sprites/hotdog.bmp");
+            temp = image_hotdog;
             break;
         case 10:
-            temp = SDL_LoadBMP("Sprites/Transparent.bmp");
+            temp = image_vide;
             break;
         case 0:
-            temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
+            temp = image_grille;
             break;
         default:
-            temp = SDL_LoadBMP("Sprites/D_Grille.bmp");
+            temp = image_grille;
             break;
     }
     carreI = SDL_DisplayFormat(temp);
     (*c).image = carreI;
-    SDL_FreeSurface(temp);
+    //SDL_FreeSurface(temp);
     (*c).colorkey = SDL_MapRGB(screen->format, 255, 0, 255);
 }
 

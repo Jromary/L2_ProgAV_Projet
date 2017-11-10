@@ -8,7 +8,10 @@
 #include <SDL.h>
 #include "piece.h"
 
-SDL_Surface *screen;
+// Les images de chaque cases des pièces sont en globales
+SDL_Surface *screen, *image_frites, *image_hotdog, *image_cannette, *image_vide, *image_grille;
+
+
 
 Piece* tab_piece_dispo;
 

@@ -22,8 +22,7 @@
 
 
 /* Import des variables globales */
-extern SDL_Surface *screen;
-
+extern SDL_Surface *screen, *image_frites, *image_hotdog, *image_cannette, *image_vide, *image_grille;
 extern int nb_piece;
 extern Piece* tab_piece_all;
 extern Piece* tab_piece_dispo;
@@ -47,8 +46,16 @@ int main(int argc, char *argv[]){
 		SDL_WM_SetCaption("PentoTrice", "PentoTrice");
 		SDL_EnableKeyRepeat(10, 100);
 		screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
+		/* Chargement des sprites */
 		SDL_Surface *background, *temp, *timer;
 		temp = SDL_LoadBMP("Sprites/bg.bmp");
+        image_frites = SDL_LoadBMP("Sprites/frites.bmp");
+        image_cannette = SDL_LoadBMP("Sprites/canette.bmp");
+        image_hotdog = SDL_LoadBMP("Sprites/hotdog.bmp");
+        image_vide = SDL_LoadBMP("Sprites/Transparent.bmp");
+        image_grille = SDL_LoadBMP("Sprites/D_Grille.bmp");
+
+
 		background = SDL_DisplayFormat(temp);
 		SDL_FreeSurface(temp);
 
@@ -192,6 +199,11 @@ int main(int argc, char *argv[]){
 		/* Desallocation */
 		SDL_FreeSurface(background);
 		SDL_FreeSurface(timer);
+		SDL_FreeSurface(image_frites);
+        SDL_FreeSurface(image_cannette);
+        SDL_FreeSurface(image_hotdog);
+        SDL_FreeSurface(image_vide);
+        SDL_FreeSurface(image_grille);
 		free_grille(plateau, 10, 10);
 		for (i = 0; i < nb_piece; i++)
         {
@@ -223,6 +235,8 @@ int main(int argc, char *argv[]){
 
 
 	} /* Fin du while finjeu */
+
+
 
 	SDL_Quit();
 	return 0;
