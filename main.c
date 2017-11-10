@@ -128,7 +128,20 @@ int main(int argc, char *argv[]){
                 timerimage.w = (1 - (float)(comp_delai_piece - delai_piece)/(float)DELAI_MAX_PIECE) * screen_length;
                 timerimage.h = 20;
                 SDL_BlitSurface(timer, &timerimage, screen, &timerpos);
+                affiche_nombre((screen_length / 2), screen_height - 64, 10 - (comp_delai_piece - delai_piece));
             }
+
+            /* Score */
+            {
+                int len_de_score = 0;
+                int score_temp = score;
+                while (score_temp > 10){
+                    score_temp = score_temp/10;
+                    len_de_score++;
+                }
+                affiche_nombre(PLATEAU_X*32/2 + 16 - 32*((len_de_score+1)/2), PLATEAU_Y*32 + 64, score);
+            }
+
             /* Grille de jeu */
 			for (i = 0; i < PLATEAU_X; i++)
             {
