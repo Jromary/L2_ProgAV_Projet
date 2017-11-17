@@ -22,7 +22,7 @@
 
 
 /* Import des variables globales */
-extern SDL_Surface *screen, *image_frites, *image_hotdog, *image_cannette, *image_vide, *image_grille;
+extern SDL_Surface *screen, *image_blue, *image_orange, *image_green, *image_vide, *image_grille, *image_red, *image_pink;
 extern int nb_piece;
 extern Piece* tab_piece_all;
 extern Piece* tab_piece_dispo;
@@ -48,10 +48,13 @@ int main(int argc, char *argv[]){
 		screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
 		/* Chargement des sprites */
 		SDL_Surface *background, *temp, *timer;
+
 		temp = SDL_LoadBMP("Sprites/bg.bmp");
-        image_frites = SDL_LoadBMP("Sprites/frites.bmp");
-        image_cannette = SDL_LoadBMP("Sprites/canette.bmp");
-        image_hotdog = SDL_LoadBMP("Sprites/hotdog.bmp");
+        image_blue = SDL_LoadBMP("Sprites/Blue.bmp");
+        image_green = SDL_LoadBMP("Sprites/Green.bmp");
+        image_orange = SDL_LoadBMP("Sprites/Orange.bmp");
+        image_pink = SDL_LoadBMP("Sprites/Pink.bmp");
+        image_red = SDL_LoadBMP("Sprites/Red.bmp");
         image_vide = SDL_LoadBMP("Sprites/Transparent.bmp");
         image_grille = SDL_LoadBMP("Sprites/D_Grille.bmp");
 
@@ -212,9 +215,9 @@ int main(int argc, char *argv[]){
 		/* Desallocation */
 		SDL_FreeSurface(background);
 		SDL_FreeSurface(timer);
-		SDL_FreeSurface(image_frites);
-        SDL_FreeSurface(image_cannette);
-        SDL_FreeSurface(image_hotdog);
+		SDL_FreeSurface(image_blue);
+        SDL_FreeSurface(image_orange);
+        SDL_FreeSurface(image_green);
         SDL_FreeSurface(image_vide);
         SDL_FreeSurface(image_grille);
 		free_grille(plateau, 10, 10);
