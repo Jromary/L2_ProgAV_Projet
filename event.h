@@ -13,6 +13,9 @@
 /* Fonction principale de gestion d'évenements */
 extern void update_events(char *keys, int x, int y, Carre **plateau);
 
+/* Fonction de gestion de la Bombas */
+extern void bombas(int id, Carre **g, int posx, int posy);
+
 /* Fonction testant si un piece est posable a une position donner */
 extern int piece_posable(int id, Carre **g, int posx, int posy );
 

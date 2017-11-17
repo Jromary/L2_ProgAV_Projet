@@ -9,7 +9,7 @@
 #include "piece.h"
 
 // Les images de chaque cases des pièces sont en globales
-SDL_Surface *screen, *image_blue, *image_orange, *image_green, *image_vide, *image_grille, *image_pink, *image_red;
+SDL_Surface *screen, *image_bombe, *image_blue, *image_orange, *image_green, *image_vide, *image_grille, *image_pink, *image_red;
 
 
 
@@ -43,7 +43,7 @@ int pressagain = 0;
 Piece* creation_tab_piece(int taille)
 {
     Piece* memoire = NULL;
-    memoire = malloc(sizeof(Piece)*taille);
+    memoire = malloc(sizeof(Piece)*(taille+1));
     if (memoire == NULL)
     {
         exit(0);

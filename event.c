@@ -14,6 +14,9 @@
 #include "carre.h"
 #include "event.h"
 
+#define maximum(a,b) ((a > b) ? (a) : (b))
+#define minimum(a,b) ((a < b) ? (a) : (b))
+
 extern int gameover;
 extern int gameover_menu;
 extern int finjeu;
@@ -125,6 +128,31 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 	}
 }
 
+void bombas(int id, Carre **g, int posx, int posy){
+    int x, y;
+    int i, j, k, l;
+    x = (int)(floor(posx/32));
+    y = (int)(floor(posy/32));
+
+    if (x <= PLATEAU_X && y <= PLATEAU_Y && x > 0 && y > 0){
+        k = minimum(PLATEAU_X-1, x);
+        l = minimum(PLATEAU_Y-1, y);
+        i = maximum(0, x-2);
+        while (i <= k){
+            j = maximum(0, y-2);
+            while (j <= l){
+                const_Carre(&g[i][j], 0, 0);
+                j++;
+            }
+            i++;
+        }
+    }
+    tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+    delai_piece = time(0);
+
+}
+
+
 /* Fonction testant si un piece est posable a une position donner */
 int piece_posable(int id, Carre **g, int posx, int posy ){
     int posable = 1;
@@ -160,61 +188,68 @@ int piece_posable(int id, Carre **g, int posx, int posy ){
 
 /* Fonction de gestion du depot de piece sur la grille */
 void deposer_piece(int id, Carre **g, int posx, int posy ){
-    int posable;
-    int x, y;
-    int i, j, k, l;
-    x = (int)(floor(posx/32));
-    y = (int)(floor(posy/32));
+    if (tab_piece_dispo[id].grille[0][0].couleur == 999){
+        bombas(id, g, posx, posy);
+    }else{
 
-    /* Test si la piece peut etre placée */
-    posable = piece_posable(id, g, posx, posy);
+        int posable;
+        int x, y;
+        int i, j, k, l;
+        x = (int)(floor(posx/32));
+        y = (int)(floor(posy/32));
 
-    if (posable == 1) // La pièce peut être placée
-    {
-        for (i = 0; i < tab_piece_dispo[id].dimx; i++)
+        /* Test si la piece peut etre placée */
+        posable = piece_posable(id, g, posx, posy);
+
+        if (posable == 1) // La pièce peut être placée
         {
-            for (j = 0; j < tab_piece_dispo[id].dimy; j++)
+            for (i = 0; i < tab_piece_dispo[id].dimx; i++)
             {
-                if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
+                for (j = 0; j < tab_piece_dispo[id].dimy; j++)
                 {
-                    if (tab_piece_dispo[id].grille[i][j].actif != 0)
+                    if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
                     {
-                        g[x+i-1][y+j-1] = copie_carre(tab_piece_dispo[id].grille[i][j]); // On écrit la pièce dans la grille
-                    }
-                }
-            }
-        }
-        tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
-        delai_piece = time(0);
-        /* Lancement de la verification des lignes / colonnes */
-        grille_LC(g, PLATEAU_X, PLATEAU_Y);
-        /* test si on peut encore jouer apres avoir poser la piece a revoire*/
-        posable = 0;
-        x = 0;
-        y = 0;
-        k = 0;
-        l = 0;
-        while (l < 4){
-            while (x < PLATEAU_X && !posable){
-                while (y < PLATEAU_Y && !posable){
-                    while (k < NB_PIECE_MAX && !posable){
-                        if (piece_posable(k, g, 32 + x*32, 32 + y*32)){
-                            posable = 1;
+                        if (tab_piece_dispo[id].grille[i][j].actif != 0)
+                        {
+                            g[x+i-1][y+j-1] = copie_carre(tab_piece_dispo[id].grille[i][j]); // On écrit la pièce dans la grille
                         }
-                    k++;
                     }
-                k = 0;
-                y++;
                 }
-            y = 0;
-            x++;
             }
-            rota_piece(&tab_piece_dispo[k]);
-            l++;
+            tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+            /* Lancement de la verification des lignes / colonnes */
+            grille_LC(g, PLATEAU_X, PLATEAU_Y);
+            /* test si on peut encore jouer apres avoir poser la piece a revoire*/
+            posable = 0;
+            x = 0;
+            y = 0;
+            k = 0;
+            l = 0;
+            while (l < 4){
+                while (x < PLATEAU_X && !posable){
+                    while (y < PLATEAU_Y && !posable){
+                        while (k < NB_PIECE_MAX && !posable){
+                            if (piece_posable(k, g, 32 + x*32, 32 + y*32)){
+                                posable = 1;
+                            }
+                        k++;
+                        }
+                    k = 0;
+                    y++;
+                    }
+                y = 0;
+                x++;
+                }
+                rota_piece(&tab_piece_dispo[k]);
+                l++;
+            }
+            if(!posable){
+                gameover = 1;
+            }
+            delai_piece = time(0);
+
         }
-        if(!posable){
-            gameover = 1;
-        }
+
     }
 }
 

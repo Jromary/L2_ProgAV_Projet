@@ -22,7 +22,7 @@
 
 
 /* Import des variables globales */
-extern SDL_Surface *screen, *image_blue, *image_orange, *image_green, *image_vide, *image_grille, *image_red, *image_pink;
+extern SDL_Surface *screen, *image_blue, *image_orange, *image_bombe, *image_green, *image_vide, *image_grille, *image_red, *image_pink;
 extern int nb_piece;
 extern Piece* tab_piece_all;
 extern Piece* tab_piece_dispo;
@@ -57,6 +57,7 @@ int main(int argc, char *argv[]){
         image_red = SDL_LoadBMP("Sprites/Red.bmp");
         image_vide = SDL_LoadBMP("Sprites/Transparent.bmp");
         image_grille = SDL_LoadBMP("Sprites/D_Grille.bmp");
+        image_bombe = SDL_LoadBMP("Sprites/Bombe.bmp");
 
 
 		background = SDL_DisplayFormat(temp);
@@ -82,6 +83,11 @@ int main(int argc, char *argv[]){
             load();
             // Creation du tableau de piece disponible et du tableau de pieces global
             tab_piece_dispo = creation_tab_piece(NB_PIECE_MAX);
+            /* Ajout de la bombe dans le tableau de piece all */
+            tab_piece_all[nb_max_input] = const_Piece(1, 1, 0, 0);
+            const_Carre(&tab_piece_all[nb_max_input].grille[0][0], 999, 0);
+            nb_max_input ++;
+
 
             nb_piece = 0;
             while (nb_piece < NB_PIECE_MAX)

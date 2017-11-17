@@ -9,7 +9,7 @@
 #include "carre.h"
 #include "globals.h"
 
-extern SDL_Surface *screen, *image_blue, *image_orange, *image_red, *image_green, *image_vide, *image_grille, *image_pink;
+extern SDL_Surface *screen, *image_bombe, *image_blue, *image_orange, *image_red, *image_green, *image_vide, *image_grille, *image_pink;
 
 
 
@@ -40,6 +40,9 @@ void const_Carre(Carre *c, int couleur, int act){
             break;
         case 0:
             temp = image_grille;
+            break;
+        case 999:
+            temp = image_bombe;
             break;
         default:
             temp = image_grille;
