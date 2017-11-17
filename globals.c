@@ -9,7 +9,7 @@
 #include "piece.h"
 
 // Les images de chaque cases des pièces sont en globales
-SDL_Surface *screen, *image_frites, *image_hotdog, *image_cannette, *image_vide, *image_grille;
+SDL_Surface *screen, *image_blue, *image_orange, *image_green, *image_vide, *image_grille, *image_pink, *image_red;
 
 
 

@@ -140,7 +140,7 @@ void load()
         }
 
         tab_piece_all[nb_max_input] = const_Piece(larg, haut, 0, 0);
-        int alea = (rand() % 3) + 1;
+        int alea = (rand() % 5) + 1;
 
         /* Test de validité : Piece vide */
         if(haut == 0) //Test si une piece est vide est dans le fichier
