@@ -37,6 +37,7 @@ extern int pressagain;
 
 extern SDL_Surface *screen;
 
+int plusbombe = 0;
 
 /* Fonction principale de gestion d'évenements */
 void update_events(char *keys, int x, int y, Carre **plateau)
@@ -133,6 +134,7 @@ void bombas(int id, Carre **g, int posx, int posy){
     int i, j, k, l;
     x = (int)(floor(posx/32));
     y = (int)(floor(posy/32));
+    int score_temp = 0;
 
     if (x <= PLATEAU_X && y <= PLATEAU_Y && x > 0 && y > 0){
         k = minimum(PLATEAU_X-1, x);
@@ -141,12 +143,16 @@ void bombas(int id, Carre **g, int posx, int posy){
         while (i <= k){
             j = maximum(0, y-2);
             while (j <= l){
+                if (g[i][j].actif == 1){
+                    score_temp += ((g[j][i].couleur)*5);
+                }
                 const_Carre(&g[i][j], 0, 0);
                 j++;
             }
             i++;
         }
     }
+    score += score_temp;
     tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
     delai_piece = time(0);
 
@@ -216,9 +222,22 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
                     }
                 }
             }
-            tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+
             /* Lancement de la verification des lignes / colonnes */
             grille_LC(g, PLATEAU_X, PLATEAU_Y);
+
+            if (plusbombe == 1){
+                tab_piece_dispo[id] = tab_piece_all[nb_max_input];
+                plusbobmbe = 0;
+            }else{
+                tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+            }
+
+
+
+
+
+
             /* test si on peut encore jouer apres avoir poser la piece a revoire*/
             posable = 0;
             x = 0;
@@ -317,6 +336,11 @@ void grille_LC(Carre **g, int larg, int haut){
     }
 
     /* Appel au score global */
+    if (score_temp > 0){
+        plusbombe = 1;
+    }else{
+        plusbombe = 0;
+    }
     score += (score_temp);
 }
 

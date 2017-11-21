@@ -86,7 +86,6 @@ int main(int argc, char *argv[]){
             /* Ajout de la bombe dans le tableau de piece all */
             tab_piece_all[nb_max_input] = const_Piece(1, 1, 0, 0);
             const_Carre(&tab_piece_all[nb_max_input].grille[0][0], 999, 0);
-            nb_max_input ++;
 
 
             nb_piece = 0;
