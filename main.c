@@ -143,7 +143,7 @@ int main(int argc, char *argv[]){
                 timerimage.w = (1 - (float)(comp_delai_piece - delai_piece)/(float)DELAI_MAX_PIECE) * screen_length;
                 timerimage.h = 20;
                 SDL_BlitSurface(timer, &timerimage, screen, &timerpos);
-                affiche_nombre((screen_length / 2), screen_height - 64, 10 - (comp_delai_piece - delai_piece));
+                //affiche_nombre((screen_length / 2), screen_height - 64, 10 - (comp_delai_piece - delai_piece));
             }
 
             /* Score */
