@@ -33,6 +33,7 @@ void accueil(int argc, char *argv[])
 	{
 		SDL_GetMouseState(&mouse_x, &mouse_y);
 		eventact_menu(key, mouse_x, mouse_y, &background);
+
 		SDL_BlitSurface(background, NULL, screen, NULL);
         if (affichescore){
             printscore();

@@ -37,6 +37,8 @@ extern int pressagain;
 
 extern SDL_Surface *screen;
 
+int credits_ouverts = 0;
+
 
 /* Fonction principale de gestion d'évenements */
 void update_events(char *keys, int x, int y, Carre **plateau)
@@ -330,68 +332,104 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
 		switch (event.type)
 		{
         case SDL_MOUSEBUTTONDOWN:
-            if (x > 270 && x < 471)
+
+            if(!credits_ouverts)
             {
-                if (y > 92 && y < 153)
-                {
-                    if (fenetre_menu == 0) // Jouer
-                    {
-                        gameover_menu = 1;
-                        //fenetre_menu = 1;
-                    }
-                    break;
-                }
-                if (y > 170 && y < 230)
-                {
-                    if (fenetre_menu == 0) // Scores
-                    {
-                        SDL_Surface *temp;
-                        temp = SDL_LoadBMP("Sprites/scores.bmp");
-                        (*background) = SDL_DisplayFormat(temp);
-                        SDL_FreeSurface(temp);
-                        trie_score();
-                        fenetre_menu = 1;
-                        affichescore = 1;
-                    }
-                    break;
-                }
-                if (y > 248 && y < 310)
-                {
-                    if (fenetre_menu == 0) // Credits
-                    {
-                        SDL_Surface *temp;
-                        temp = SDL_LoadBMP("Sprites/credits_bg.bmp");
-                        (*background) = SDL_DisplayFormat(temp);
-                        SDL_FreeSurface(temp);
-                        fenetre_menu = 1;
-                        system("xdg-open https://github.com/Jromary/L2_ProgAV_Projet");
-                    }
-                    break;
-                }
-                if (y > 326 && y < 388)
-                {
-                    if (fenetre_menu == 0) // Quitter
-                    {
-                        finjeu = 1;
-                        gameover_menu = 1;
-                        gameover = 1;
-                    }
-                    break;
-                }
-                if (y > 390 && y < 452)
-                {
-                    if (fenetre_menu == 1) // Retour
-                    {
-                        SDL_Surface *temp;
-                        temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
-                        (*background) = SDL_DisplayFormat(temp);
-                        SDL_FreeSurface(temp);
-                        fenetre_menu = 0;
-                        affichescore = 0;
-                    }
-                    break;
-                }
+
+
+              if (x > 270 && x < 471)
+              {
+                  if (y > 92 && y < 153)
+                  {
+                      if (fenetre_menu == 0) // Jouer
+                      {
+                          gameover_menu = 1;
+                          //fenetre_menu = 1;
+                      }
+                      break;
+                  }
+                  if (y > 170 && y < 230)
+                  {
+                      if (fenetre_menu == 0) // Scores
+                      {
+                          SDL_Surface *temp;
+                          temp = SDL_LoadBMP("Sprites/scores.bmp");
+                          (*background) = SDL_DisplayFormat(temp);
+                          SDL_FreeSurface(temp);
+                          trie_score();
+                          fenetre_menu = 1;
+                          affichescore = 1;
+                      }
+                      break;
+                  }
+                  if (y > 248 && y < 310)
+                  {
+                      if (fenetre_menu == 0) // Credits
+                      {
+                          SDL_Surface *temp;
+                          temp = SDL_LoadBMP("Sprites/credits_bg.bmp");
+                          (*background) = SDL_DisplayFormat(temp);
+                          SDL_FreeSurface(temp);
+                          fenetre_menu = 1;
+                          credits_ouverts = 1;
+                      }
+                      break;
+                  }
+                  if (y > 326 && y < 388)
+                  {
+                      if (fenetre_menu == 0) // Quitter
+                      {
+                          finjeu = 1;
+                          gameover_menu = 1;
+                          gameover = 1;
+                      }
+                      break;
+                  }
+                  if (y > 390 && y < 452)
+                  {
+                      if (fenetre_menu == 1) // Retour
+                      {
+                          SDL_Surface *temp;
+                          temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
+                          (*background) = SDL_DisplayFormat(temp);
+                          SDL_FreeSurface(temp);
+                          fenetre_menu = 0;
+                          affichescore = 0;
+                          credits_ouverts = 0;
+                      }
+                      break;
+                  }
+              }
+
+
             }
+            else // Credits déja ouverts, test pour lien cliquable
+            {
+               if(x>168 && x<585)
+               {
+                 if(y>224 && y<327) // cas 1
+                 {
+                    system("xdg-open https://github.com/Jromary/L2_ProgAV_Projet");
+
+                    break;
+                 }
+                 if (y > 390 && y < 452) // Cas 2
+                  {
+                      if (fenetre_menu == 1) // Retour
+                      {
+                          SDL_Surface *temp;
+                          temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
+                          (*background) = SDL_DisplayFormat(temp);
+                          SDL_FreeSurface(temp);
+                          fenetre_menu = 0;
+                          affichescore = 0;
+                          credits_ouverts = 0;
+                      }
+                      break;
+                  }
+               }
+            }
+
             break;
 		case SDL_QUIT:
 			gameover = 1;
