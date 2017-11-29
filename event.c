@@ -512,6 +512,9 @@ void trie_score_aux(int *tab, int n)
 void trie_score()
 {
 	FILE *fichier = fopen("scores.txt", "r+");
+	if (fichier == NULL){
+        fichier = fopen("scores.txt", "w");
+	}
 	int i, tmp;
 	int nb_ligne = 0;
 	while (fscanf(fichier, "%d", &tmp) != EOF)
