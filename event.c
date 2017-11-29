@@ -1,8 +1,8 @@
-/*********************************
-*
-*       GESTION DES EVENEMENTS
-*
-**********************************/
+/***********************************
+*                                  *
+*      GESTION DES EVENEMENTS      *
+*                                  *
+***********************************/
 
 #include <math.h>
 #include <time.h>
@@ -48,37 +48,28 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 {
     int test = 0;
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
+	while (SDL_PollEvent(&event)){
+		switch (event.type){
 		/*
 		* Test pour savoir sur quelle piece on se situe si on en aucune en deplacement
 		*
 		* sinon, essaye de poser la piece dans la grille de jeu
 		*/
         case SDL_MOUSEBUTTONDOWN:
-            for (int i = 0; i < nb_piece; i++)
-            {
-                if(tab_piece_dispo[i].actif == 1)
-                {
+            for (int i = 0; i < nb_piece; i++){
+                if(tab_piece_dispo[i].actif == 1){
                     test=1;
                 }
             }
-            for (int i = 0; i < nb_piece; i++)
-            {
+            for (int i = 0; i < nb_piece; i++){
                 if ((x >= tab_piece_dispo[i].pos.x) &&
                     (x <= tab_piece_dispo[i].bd.x) &&
                     (y >= tab_piece_dispo[i].pos.y) &&
-                    (y <= tab_piece_dispo[i].bd.y))
-                {
-                    if (tab_piece_dispo[i].actif == 1)
-                    {
+                    (y <= tab_piece_dispo[i].bd.y)){
+                    if (tab_piece_dispo[i].actif == 1){
                         tab_piece_dispo[i].actif = 0;
                         deposer_piece(i, plateau, x, y);
-                    }
-                    else if(test == 0)
-                    {
+                    }else if(test == 0){
                         tab_piece_dispo[i].actif = 1;
                         break;
                     }
@@ -91,8 +82,7 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 			break;
 		case SDL_KEYUP:
 			keys[event.key.keysym.sym] = 0;
-			switch (event.key.keysym.sym)
-			{
+			switch (event.key.keysym.sym){
 			    case SDLK_SPACE:
 			        if (pressagain){
                         pressagain = 0;
@@ -103,18 +93,15 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 			}
 			break;
 		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
+			switch (event.key.keysym.sym){
 			case SDLK_ESCAPE:
 			    finjeu = 1;
 				gameover = 1;
 				break;
             case SDLK_SPACE:
                 if (!pressagain){
-                    for (int i = 0; i < nb_piece; i++)
-                    {
-                        if(tab_piece_dispo[i].actif == 1)
-                        {
+                    for (int i = 0; i < nb_piece; i++){
+                        if(tab_piece_dispo[i].actif == 1){
                             rota_piece(&tab_piece_dispo[i]);
                             break;
                         }
@@ -133,7 +120,8 @@ void update_events(char *keys, int x, int y, Carre **plateau)
 	}
 }
 
-void bombas(int id, Carre **g, int posx, int posy){
+void bombas(int id, Carre **g, int posx, int posy)
+{
     int x, y;
     int i, j, k, l;
     x = (int)(floor(posx/32));
@@ -164,7 +152,8 @@ void bombas(int id, Carre **g, int posx, int posy){
 
 
 /* Fonction testant si un piece est posable a une position donner */
-int piece_posable(int id, Carre **g, int posx, int posy ){
+int piece_posable(int id, Carre **g, int posx, int posy )
+{
     int posable = 1;
     int x, y;
     int i, j;
@@ -173,19 +162,14 @@ int piece_posable(int id, Carre **g, int posx, int posy ){
     i = 0;
     j = 0;
 
-    while (i < tab_piece_dispo[id].dimx && posable)
-    {
-        while (j < tab_piece_dispo[id].dimy && posable)
-        {
-            if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
-            {
-                if (g[x+i-1][y+j-1].actif == 1 && tab_piece_dispo[id].grille[i][j].actif == 1) // Piece chevauchant une piece déjà dans la grille
-                {
-                    posable = 0;
+    while (i < tab_piece_dispo[id].dimx && posable){
+        while (j < tab_piece_dispo[id].dimy && posable){
+            if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
+                if (g[x+i-1][y+j-1].actif == 1 && tab_piece_dispo[id].grille[i][j].actif == 1){
+                     // Piece chevauchant une piece déjà dans la grille
+                     posable = 0;
                 }
-            }
-            else // Piece sortante de la grille
-            {
+            }else {// Piece sortante de la grille
                 posable = 0;
             }
             j++;
@@ -197,7 +181,8 @@ int piece_posable(int id, Carre **g, int posx, int posy ){
 }
 
 /* Fonction de gestion du depot de piece sur la grille */
-void deposer_piece(int id, Carre **g, int posx, int posy ){
+void deposer_piece(int id, Carre **g, int posx, int posy )
+{
     if (tab_piece_dispo[id].grille[0][0].couleur == 999){
         bombas(id, g, posx, posy);
     }else{
@@ -211,16 +196,11 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
         /* Test si la piece peut etre placée */
         posable = piece_posable(id, g, posx, posy);
 
-        if (posable == 1) // La pièce peut être placée
-        {
-            for (i = 0; i < tab_piece_dispo[id].dimx; i++)
-            {
-                for (j = 0; j < tab_piece_dispo[id].dimy; j++)
-                {
-                    if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0)
-                    {
-                        if (tab_piece_dispo[id].grille[i][j].actif != 0)
-                        {
+        if (posable == 1) {// La pièce peut être placée
+            for (i = 0; i < tab_piece_dispo[id].dimx; i++){
+                for (j = 0; j < tab_piece_dispo[id].dimy; j++){
+                    if (x+i <= PLATEAU_X && y+j <= PLATEAU_Y && x+i > 0 && y+j > 0){
+                        if (tab_piece_dispo[id].grille[i][j].actif != 0){
                             g[x+i-1][y+j-1] = copie_carre(tab_piece_dispo[id].grille[i][j]); // On écrit la pièce dans la grille
                         }
                     }
@@ -236,12 +216,6 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
             }else{
                 tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
             }
-
-
-
-
-
-
             /* test si on peut encore jouer apres avoir poser la piece a revoire*/
             posable = 0;
             x = 0;
@@ -270,39 +244,32 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
                 gameover = 1;
             }
             delai_piece = time(0);
-
         }
-
     }
 }
 
 /* Gestion des lignes entières et des colonnes entières */
-void grille_LC(Carre **g, int larg, int haut){
+void grille_LC(Carre **g, int larg, int haut)
+{
     int tab_a_changer[larg+haut];
     int i, j;
     int test = 1;
     int score_temp = 0;
 
     /* Enregistrement des lignes colonnes à enlever */
-    for (i = 0; i < haut; i++)
-    {
+    for (i = 0; i < haut; i++){
         test = 1;
-        for (j = 0; j < larg; j++)
-        {
-            if (g[j][i].actif == 0)
-            {
+        for (j = 0; j < larg; j++){
+            if (g[j][i].actif == 0){
                 test = 0;
             }
         }
         tab_a_changer[i] = test;
     }
-    for (j = 0; j < larg; j++)
-    {
+    for (j = 0; j < larg; j++){
         test = 1;
-        for (i = 0; i < haut; i++)
-        {
-            if (g[j][i].actif == 0)
-            {
+        for (i = 0; i < haut; i++){
+            if (g[j][i].actif == 0){
                 test = 0;
             }
         }
@@ -311,12 +278,9 @@ void grille_LC(Carre **g, int larg, int haut){
 
     /* Debut du vidage de ligne et colonne */
     /* On compte le score rapporte par la ligne / colonne */
-    for (i = 0; i < haut; i++)
-    {
-        if (tab_a_changer[i] == 1)
-        {
-            for (j = 0; j < larg; j++)
-            {
+    for (i = 0; i < haut; i++){
+        if (tab_a_changer[i] == 1){
+            for (j = 0; j < larg; j++){
                 score_temp += ((g[j][i].couleur)*5);
                 //printf("Le Carre rapporte %d\n",(g[j][i].couleur)*5);
                 /* Remise à zéro des carrés de la ligne */
@@ -325,12 +289,9 @@ void grille_LC(Carre **g, int larg, int haut){
         }
     }
 
-    for (j = 0; j < larg; j++)
-    {
-        if (tab_a_changer[haut+j] == 1)
-        {
-            for (i = 0; i < haut; i++)
-            {
+    for (j = 0; j < larg; j++){
+        if (tab_a_changer[haut+j] == 1){
+            for (i = 0; i < haut; i++){
                 score_temp += ((g[j][i].couleur)*5);
                 //printf("Le Carre rapporte %d\n",(g[j][i].couleur)*5);
                 /* Remise à zéro des carrés de la colonne */
@@ -338,7 +299,6 @@ void grille_LC(Carre **g, int larg, int haut){
             }
         }
     }
-
     /* Appel au score global */
     if (score_temp > 0){
         plusbombe = 1;
@@ -353,31 +313,20 @@ void grille_LC(Carre **g, int larg, int haut){
 void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
 {
     SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
+	while (SDL_PollEvent(&event)){
+		switch (event.type){
         case SDL_MOUSEBUTTONDOWN:
-
-            if(!credits_ouverts)
-            {
-
-
-              if (x > 270 && x < 471)
-              {
-                  if (y > 92 && y < 153)
-                  {
-                      if (fenetre_menu == 0) // Jouer
-                      {
+            if(!credits_ouverts){
+                if (x > 270 && x < 471){
+                  if (y > 92 && y < 153){
+                      if (fenetre_menu == 0) {// Jouer
                           gameover_menu = 1;
                           //fenetre_menu = 1;
                       }
                       break;
                   }
-                  if (y > 170 && y < 230)
-                  {
-                      if (fenetre_menu == 0) // Scores
-                      {
+                  if (y > 170 && y < 230){
+                      if (fenetre_menu == 0){// Scores
                           SDL_Surface *temp;
                           temp = SDL_LoadBMP("Sprites/scores.bmp");
                           (*background) = SDL_DisplayFormat(temp);
@@ -388,10 +337,8 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                       }
                       break;
                   }
-                  if (y > 248 && y < 310)
-                  {
-                      if (fenetre_menu == 0) // Credits
-                      {
+                  if (y > 248 && y < 310){
+                      if (fenetre_menu == 0){// Credits
                           SDL_Surface *temp;
                           temp = SDL_LoadBMP("Sprites/credits_bg.bmp");
                           (*background) = SDL_DisplayFormat(temp);
@@ -401,20 +348,16 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                       }
                       break;
                   }
-                  if (y > 326 && y < 388)
-                  {
-                      if (fenetre_menu == 0) // Quitter
-                      {
+                  if (y > 326 && y < 388){
+                      if (fenetre_menu == 0){// Quitter
                           finjeu = 1;
                           gameover_menu = 1;
                           gameover = 1;
                       }
                       break;
                   }
-                  if (y > 390 && y < 452)
-                  {
-                      if (fenetre_menu == 1) // Retour
-                      {
+                  if (y > 390 && y < 452){
+                      if (fenetre_menu == 1){// Retour
                           SDL_Surface *temp;
                           temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
                           (*background) = SDL_DisplayFormat(temp);
@@ -428,21 +371,14 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
               }
 
 
-            }
-            else // Credits déja ouverts, test pour lien cliquable
-            {
-               if(x>168 && x<585)
-               {
-                 if(y>224 && y<327) // cas 1
-                 {
+            }else{ // Credits déja ouverts, test pour lien cliquable
+               if(x>168 && x<585){
+                 if(y>224 && y<327){// cas 1
                     system("xdg-open https://github.com/Jromary/L2_ProgAV_Projet");
-
                     break;
                  }
-                 if (y > 390 && y < 452) // Cas 2
-                  {
-                      if (fenetre_menu == 1) // Retour
-                      {
+                 if (y > 390 && y < 452){ // Cas 2
+                      if (fenetre_menu == 1){// Retour
                           SDL_Surface *temp;
                           temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
                           (*background) = SDL_DisplayFormat(temp);
@@ -455,7 +391,6 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
                   }
                }
             }
-
             break;
 		case SDL_QUIT:
 			gameover = 1;
@@ -466,8 +401,7 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
 			keys[event.key.keysym.sym] = 0;
 			break;
 		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
+			switch (event.key.keysym.sym){
 			case SDLK_ESCAPE:
 				gameover = 1;
 				gameover_menu = 1;
@@ -489,18 +423,14 @@ void eventact_menu(char *keys, int x, int y, SDL_Surface **background)
 void trie_score_aux(int *tab, int n)
 {
 	int i, min, j, tmp;
-	for (i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++){
 		min = i;
-		for (j = i + 1; j < n; j++)
-		{
-			if (tab[j] > tab[min])
-			{
+		for (j = i + 1; j < n; j++){
+			if (tab[j] > tab[min]){
 				min = j;
 			}
 		}
-		if (min != i)
-		{
+		if (min != i){
 			tmp = tab[i];
 			tab[i] = tab[min];
 			tab[min] = tmp;
@@ -517,8 +447,7 @@ void trie_score()
 	}
 	int i, tmp;
 	int nb_ligne = 0;
-	while (fscanf(fichier, "%d", &tmp) != EOF)
-	{
+	while (fscanf(fichier, "%d", &tmp) != EOF){
 		nb_ligne++;
 	}
 	int score[nb_ligne];
@@ -528,8 +457,7 @@ void trie_score()
 	fclose(fichier);
 	fichier = fopen("scores.txt", "w");
 	trie_score_aux(score, nb_ligne);
-	for (i = 0; i < nb_ligne && i < 5; i++)
-	{
+	for (i = 0; i < nb_ligne && i < 5; i++){
 		fprintf(fichier, "%d\n", score[i]);
 	}
 	fclose(fichier);
@@ -540,16 +468,13 @@ void printscore()
 	FILE *fichier = fopen("scores.txt", "r");
 	int nb_ligne = 0;
 	int i, tmp;
-	while (fscanf(fichier, "%d", &tmp) != EOF)
-	{
+	while (fscanf(fichier, "%d", &tmp) != EOF){
 		nb_ligne++;
 	}
 	int score[nb_ligne];
 	rewind(fichier);
-	while (fscanf(fichier, "%d", &score[i++]) != EOF)
-		;
-	for (i = 0; i < nb_ligne; i++)
-	{
+	while (fscanf(fichier, "%d", &score[i++]) != EOF);
+	for (i = 0; i < nb_ligne; i++){
 		affiche_nombre((screen_length / 2) - 64, i * (screen_height / (nb_ligne + 5)), score[i]);
 	}
 	fclose(fichier);
@@ -571,21 +496,18 @@ void affiche_nombre(int x, int y, int nb)
 	pi.y = y;
 	int nb_chifre = 0;
 	int nb_aux = nb;
-	while (nb_aux > 9)
-	{
+	while (nb_aux > 9){
 		nb_aux = nb_aux / 10;
 		nb_chifre++;
 	}
 
 	int nb_split[nb_chifre];
-	for (int i = 0; i <= nb_chifre; i++)
-	{
+	for (int i = 0; i <= nb_chifre; i++){
 		nb_split[i] = nb % 10;
 		nb = nb / 10;
 	}
 	SDL_Rect nombreImage;
-	for (int i = 0; i <= nb_chifre; i++)
-	{
+	for (int i = 0; i <= nb_chifre; i++){
 		nombreImage.x = nb_split[nb_chifre - i] * 32;
 		nombreImage.y = 0;
 		nombreImage.w = 32;

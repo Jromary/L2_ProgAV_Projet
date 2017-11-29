@@ -44,19 +44,17 @@ Piece* creation_tab_piece(int taille)
 {
     Piece* memoire = NULL;
     memoire = malloc(sizeof(Piece)*(taille+1));
-    if (memoire == NULL)
-    {
+    if (memoire == NULL){
         exit(0);
     }
     return memoire;
 }
-
+/* Allocation dynamique d'un tableau de int de taille 'taille' */
 int* creation_tab_int(int taille)
 {
     int* memoire = NULL;
     memoire = malloc(sizeof(int)*taille);
-    if (memoire == NULL)
-    {
+    if (memoire == NULL){
         exit(0);
     }
     return memoire;

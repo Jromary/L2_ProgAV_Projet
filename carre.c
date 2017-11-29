@@ -14,12 +14,12 @@ extern SDL_Surface *screen, *image_bombe, *image_blue, *image_orange, *image_red
 
 
 /* Constructeur */
-void const_Carre(Carre *c, int couleur, int act){
+void const_Carre(Carre *c, int couleur, int act)
+{
     SDL_Surface *temp, *carreI;
     (*c).actif = act;
     (*c).couleur = couleur;
-    switch (couleur)
-    {
+    switch (couleur){
         case 1:
             temp = image_blue;
             break;
