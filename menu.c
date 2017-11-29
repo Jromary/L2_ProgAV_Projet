@@ -16,10 +16,6 @@ extern int affichescore;
 /* Boucle du menu */
 void accueil(int argc, char *argv[])
 {
-	SDL_WM_SetCaption("PentoTrice", "PentoTrice");
-	SDL_EnableKeyRepeat(10, 100);
-
-	screen = SDL_SetVideoMode(screen_length, screen_height, 0, 0);
 	SDL_Surface *background, *temp;
 
 	temp = SDL_LoadBMP("Sprites/accueil_bg.bmp");
@@ -29,19 +25,16 @@ void accueil(int argc, char *argv[])
 	int mouse_x, mouse_y;
 	char key[SDLK_LAST] = {0};
 
-	while (!gameover_menu)
-	{
+	while (!gameover_menu){
 		SDL_GetMouseState(&mouse_x, &mouse_y);
-		eventact_menu(key, mouse_x, mouse_y, &background);
+		eventact_menu(key, mouse_x, mouse_y, &background); // Gestion des evenements dans le menu
 
 		SDL_BlitSurface(background, NULL, screen, NULL);
-        if (affichescore){
-            printscore();
-        }
-
-	    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    if (affichescore){
+        printscore();
+    }
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
 	}
 	SDL_FreeSurface(background);
 	gameover_menu = 0;
-
 }

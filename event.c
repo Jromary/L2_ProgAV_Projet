@@ -42,18 +42,15 @@ int plusbombe = 0;
 int credits_ouverts = 0;
 
 
-
 /* Fonction principale de gestion d'évenements */
 void update_events(char *keys, int x, int y, Carre **plateau)
 {
     int test = 0;
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
+	while (SDL_PollEvent(&event)){
+		switch (event.type){
 		/*
-		* Test pour savoir sur quelle piece on se situe si on en aucune en deplacement
+		* Test pour savoir sur quelle piece se situe la souris si on en a aucune en deplacement
 		*
 		* sinon, essaye de poser la piece dans la grille de jeu
 		*/

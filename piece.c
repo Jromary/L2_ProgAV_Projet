@@ -27,10 +27,8 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
 	nouvelle_piece->dimy = tailley;
 
 	int alea = (rand() % 3) + 1;
-	for (int i = 0; i < taillex; i++)
-    {
-		for (int j = 0; j < tailley; j++)
-		{
+	for (int i = 0; i < taillex; i++){
+		for (int j = 0; j < tailley; j++){
 			const_Carre(&(nouvelle_piece->grille[i][j]), alea, 0);
 		}
 	}
@@ -41,12 +39,9 @@ Piece const_Piece(int taillex, int tailley, int x, int y)
 Piece copie_Piece(Piece piece_ref)
 {
 	Piece nouvellePiece = const_Piece(piece_ref.dimx, piece_ref.dimy, piece_ref.pos.x, piece_ref.pos.y);
-
 	int i,j;
-	for(i=0; i<piece_ref.dimx; i++)
-	{
-		for(j=0; j<piece_ref.dimy; j++)
-		{
+	for(i=0; i<piece_ref.dimx; i++){
+		for(j=0; j<piece_ref.dimy; j++){
 			const_Carre(&nouvellePiece.grille[i][j], piece_ref.grille[i][j].couleur, piece_ref.grille[i][j].actif);
 		}
 	}
@@ -66,18 +61,14 @@ void rota_piece(Piece *p)
 	nouvelle_grille = alloc_grille((*p).dimy, (*p).dimx);
 	int i, j;
 	int tmp;
-	for (i = 0; i < (*p).dimx; i++)
-	{
-		for (j = 0; j < (*p).dimy; j++)
-		{
+	for (i = 0; i < (*p).dimx; i++){
+		for (j = 0; j < (*p).dimy; j++){
 			const_Carre(&nouvelle_grille[(*p).dimy-j-1][i], (*p).grille[i][j].couleur, (*p).grille[i][j].actif);
 		}
 	}
-
 	free_grille((*p).grille, (*p).dimy, (*p).dimx);
     tmp = (*p).dimx;
     (*p).dimx = (*p).dimy;
     (*p).dimy = tmp;
 	(*p).grille = nouvelle_grille;
-
 }
