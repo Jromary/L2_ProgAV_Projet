@@ -37,12 +37,11 @@ extern int pressagain;
 
 extern SDL_Surface *screen;
 
-<<<<<<< HEAD
+
 int plusbombe = 0;
-=======
 int credits_ouverts = 0;
 
->>>>>>> 42de256f65a421298543a41ff65490944ab48e66
+
 
 /* Fonction principale de gestion d'évenements */
 void update_events(char *keys, int x, int y, Carre **plateau)
@@ -233,7 +232,7 @@ void deposer_piece(int id, Carre **g, int posx, int posy ){
 
             if (plusbombe == 1){
                 tab_piece_dispo[id] = tab_piece_all[nb_max_input];
-                plusbobmbe = 0;
+                plusbombe = 0;
             }else{
                 tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
             }
