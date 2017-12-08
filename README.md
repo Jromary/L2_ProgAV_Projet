@@ -45,8 +45,6 @@ Le fichier commence directement par une pièce et pas un "0". La dernière ligne
 9a8 : caractère non conforme **erreur**<br>
 888<br>
 
-/play sax
-
 ## Contributeur
 - Julien Romary
 - Emmanuel Perrin 
