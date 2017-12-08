@@ -7,11 +7,11 @@ Pour lancer le programme, il faut télécharger l'archive contenant le projet et
 
 ### Règles du jeu
 Notre jeu est un tetris sur la hauteur et la largeur. Le but est de faire le score le plus élevé.
-On dispose d'un triplet de pièces à droite de l'écran qu'on peut déposer sur la grille de jeu si toute les cases colorées ne superposent pas de cases de la grille. On peut également utiliser la barre espace pour pivoter la pièce. Une fois posée, une autre la remplace dans le triplet et le jeu continue. Pour chaque dépot, on dispose de 10 secondes.
+On dispose d'un triplet de pièces à droite de l'écran qu'on peut déposer sur la grille de jeu si toutes les cases colorées ne superposent pas de cases déjà dans la grille. On peut également utiliser la barre espace pour pivoter la pièce. Une fois posée, une autre pièce la remplace dans le triplet et le jeu continue. Pour chaque dépot, on dispose de 10 secondes (matérialisées par la barre décroissante en bas de l'écran).
 
-Si on complète une ligne ou une colonne, on marque des points (en fonction des couleurs des carrés). De plus, une bombe peut apparaitre suite à celà dans le triplet (probabilité de 0.5). La bombe supprime (et fais gagner des points) les carrés à son voisinage.
+Si on complète une ligne ou une colonne, on marque des points (en fonction des couleurs des carrés). De plus, une bombe peut apparaitre suite à celà dans le triplet (probabilité de 0.5). La bombe supprime (et fais gagner des points) les carrés de son voisinage une fois posée.
 
-Le jeu s'arrête automatiquement si par malchance, aucune des pièces du triplet ne peut être posée. Le score est enregistré et visible dans le menu "scores". Il est automatiquement trié et seul les cinq meilleurs sont visibles.
+Le jeu s'arrête automatiquement si par malchance, aucune des pièces du triplet ne peut être posée. Le score est enregistré et est visible dans le menu "scores". Il est automatiquement trié et seul les cinq meilleurs sont visibles.
 
 ### Règles du fichier d'entrée
 Le fichier d'entrée "input.txt" permet de définir soi-même les pièces pouvant apparaître dans le jeu.
@@ -22,7 +22,7 @@ Cependant il faut respecter une syntaxe :
 - pas de lignes vides
 - pas d'autre caractères (2,a,*,/,...)
 
-Le fichier commence directement par une pièce et pas un "0". La dernière ligne du fichier, elle, doit contenir un "0" et rien d'autre (pas de retour à la ligne). La forme des pièces doit être réctangulaire et minimale.
+Le fichier commence directement par une pièce et pas un "0". La dernière ligne du fichier, elle, doit contenir un "0" et rien d'autre (pas de retour à la ligne). La forme des pièces doit être rectangulaire et minimale.
 
 #### Exemple :
 888 : une barre de 3x1 carrés
