@@ -71,13 +71,13 @@ void load()
         printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
         printf("ERREUR:\n >>> Une pièce n'a pas le même nombre de colonne sur chaque ligne\n");
         SDL_Quit();
-        exit(0);
+        exit(1);
     }
     if(NaN){
         printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
         printf("ERREUR:\n >>>Caractère non conforme\n");
         SDL_Quit();
-        exit(0);
+        exit(1);
     }
 
     /* Test de validité : Fichier vide */
@@ -86,7 +86,7 @@ void load()
          printf("\nERREUR DANS LE CHARGEMENT DES PIECE DU FICHIER SOURCE\n");
          printf("ERREUR:\n >>> Fichier vide\n");
          SDL_Quit();
-         exit(0);
+         exit(1);
     }
 
     FILE *fichier = fopen("input.txt", "r+");
