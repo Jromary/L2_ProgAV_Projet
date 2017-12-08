@@ -215,11 +215,12 @@ void deposer_piece(int id, Carre **g, int posx, int posy )
             /* Lancement de la verification des lignes / colonnes */
             grille_LC(g, PLATEAU_X, PLATEAU_Y);
 
-            if (plusbombe == 1) {
+            if (plusbombe == 1 && (rand() % 2)) {
                 tab_piece_dispo[id] = tab_piece_all[nb_max_input];
                 plusbombe = 0;
             } else {
                 tab_piece_dispo[id] = copie_Piece(tab_piece_all[rand() % nb_max_input]);
+                plusbombe = 0;
             }
 
             posable = 0;
