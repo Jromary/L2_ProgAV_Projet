@@ -27,23 +27,23 @@ Le fichier commence directement par une pièce et pas un "0". La dernière ligne
 #### Exemple :
 888 : une barre de 3x1 carrés
 
-818
-818 : une pièce en "U"
-888
+818<br>
+818 : une pièce en "U"<br>
+888<br>
 
-811 : pièce non minimale **erreur** 
+811 : pièce non minimale <br>
 
-88
-888 : pièce non rectangulaire **erreur**
-888
+88<br>
+888 : pièce non rectangulaire **erreur**<br>
+888<br>
 
-881
-888 : pièce correcte
-888
+881<br>
+888 : pièce correcte<br>
+888<br>
 
-888
-9a8 : caractère non conforme **erreur**
-888
+888<br>
+9a8 : caractère non conforme **erreur**<br>
+888<br>
 
 
 ## Contributeur
