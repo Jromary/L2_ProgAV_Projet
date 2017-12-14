@@ -46,5 +46,5 @@ Le fichier commence directement par une pièce et pas un "0". La dernière ligne
 888<br>
 
 ## Contributeur
-- Julien Romary
+- Julien Romary [ julienromary@yahoo.fr ]
 - Emmanuel Perrin 
